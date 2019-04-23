@@ -42,7 +42,7 @@ plot(x=coords$X, y=coords$Y, pch=19, bty="n", xaxt="n", yaxt="n", col="red", xla
 addTextLabels(coords$X, coords$Y, coords$Name, cex=1, col.background=rgb(0,0,0, 0.75), col.label="white")
 ```
 
-![](addTextLabels.gif)
+![](ExampleImages/addTextLabels.gif)
 
 ## `spreadPoints`
 Adding points to single boxplot:
@@ -61,7 +61,7 @@ boxplot(values, xlab="",  ylab="", frame=FALSE, las=1, pch=19, outcol=rgb(1,0,0,
 spreadPoints(values, position=1)
 ```
 
-![](spreadPoints_1.png)
+![](ExampleImages/spreadPoints_1.png)
 
 Adding points to multiple boxplots:
 ```
@@ -78,7 +78,7 @@ boxplot(Values ~ Category, data = randomSamples, lwd = 2)
 spreadPointsMultiple(data=randomSamples, responseColumn="Values", categoriesColumn="Category")
 ```
 
-![](spreadPoints_2.png)
+![](ExampleImages/spreadPoints_2.png)
 
 ## `plotMultipleHistograms`
 ```
@@ -94,4 +94,4 @@ distributions <- list(rnorm(500, mean=5, sd=0.5),
 plotMultipleHistograms(distributions, nBins=20, colours=c(rgb(1,0,0, 0.5), rgb(0,0,1, 0.5), rgb(0,1,0, 0.5)), las=1)
 ```
 
-![](plotMultipleHistograms.png)
+![](ExampleImages/plotMultipleHistograms.png)
