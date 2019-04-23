@@ -84,7 +84,7 @@ spreadPointsMultiple(data=randomSamples, responseColumn="Values", categoriesColu
 # Set the seed
 set.seed(254534)
 
-# Create two random samples from a normal distribution
+# Create random samples from a normal distribution
 distributions <- list(rnorm(500, mean=5, sd=0.5), 
                       rnorm(500, mean=8, sd=5), 
                       rnorm(500, mean=20, sd=2))
