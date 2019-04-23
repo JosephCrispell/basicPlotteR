@@ -90,7 +90,8 @@ distributions <- list(rnorm(500, mean=5, sd=0.5),
                       rnorm(500, mean=20, sd=2))
 
 # Plot overlapping histograms
-plotMultipleHistograms(distributions, nBins=20, colours=c(rgb(1,0,0, 0.5), rgb(0,0,1, 0.5), rgb(0,1,0, 0.5)), las=1)
+plotMultipleHistograms(distributions, nBins=20, colours=c(rgb(1,0,0, 0.5), rgb(0,0,1, 0.5), rgb(0,1,0, 0.5)), 
+					   las=1, main="Samples from normal distribution", xlab="Value")
 ```
 
 ![](ExampleImages/plotMultipleHistograms.png)
