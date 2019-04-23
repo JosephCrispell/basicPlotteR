@@ -13,7 +13,7 @@ library(plotteR)
 ```
 
 ## Package contents
-`plotteR` is a collection of tools designed for particular tasks. As I develop different tools that help with plotting in R I'll add them into this general package. These are the current tools available in `plotteR`:
+`plotteR` is a collection of tools designed for particular tasks. As I develop different tools that help with plotting in R, I'll add them into this general package. These are the current tools available in `plotteR`:
 - `addTextLabels` for add non-overlapping labels onto existing R plot
 - `spreadPoints` for adding points onto boxplot(s) that are deterministically spread out to minimise overlap
 - `plotMultipleHistograms` for plotting multiple histograms on the same plot
