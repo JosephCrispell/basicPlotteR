@@ -7,8 +7,7 @@ An R package containing all the functions I have developed to make plotting with
 Package can be directly installed into R using:
 ```
 install.packages("devtools")
-library("devtools")
-install_github("JosephCrispell/plotteR")
+devtools::install_github("JosephCrispell/plotteR")
 library(plotteR)
 ```
 
