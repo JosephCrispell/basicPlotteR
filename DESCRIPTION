@@ -1,0 +1,10 @@
+Package: plotteR
+Title: A collection of functions to help with base R plotting
+Version: 0.0.0.9000
+Authors@R: person("Joseph", "Crispell", email = "crispelljoseph@gmail.com", role = "cre")
+Description: A constantly growing set of functions that I find useful for plotting in base R
+Depends: R (>= 3.0.2)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
