@@ -2,5 +2,6 @@
 
 export(addTextLabels)
 export(plotMultipleHistograms)
+export(progress)
 export(spreadPoints)
 export(spreadPointsMultiple)
