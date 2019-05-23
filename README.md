@@ -95,3 +95,21 @@ plotMultipleHistograms(distributions, nBins=20, colours=c(rgb(1,0,0, 0.5), rgb(0
 ```
 
 ![](ExampleImages/plotMultipleHistograms.png)
+
+## `progress`
+```
+# Set the number of iterations of the for loop
+n <- 1000
+
+for(i in 1:n){
+  
+  # Sleep for a tenth of a second
+  Sys.sleep(0.01)
+  
+  # Update the progress bar
+  progress(i, n)
+}
+```
+
+![](ExampleImages/progress.gif)
+
