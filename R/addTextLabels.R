@@ -63,6 +63,18 @@
 addTextLabels <- function(xCoords, yCoords, labels, cex=1, col.label="red", col.line="black", col.background=NULL,
                           lty=1, lwd=1, border=NA, avoidPoints=TRUE, keepLabelsInside=TRUE){
 
+  #######################################################
+  # Check that the input data are in the correct format #
+  #######################################################
+  
+  # Are each of coordinate vectors the same length?
+  if(length(xCoords) != length(yCoords)){
+    stop("addTextLabels() The vectors containing the X and Y coodinates must be the same length.")
+  }
+  if(length(xCoords) != length(labels)){
+    stop("addTextLabels() The vector of labels must be the same length as the coordinate vectors.")
+  }
+  
   #######################
   # Get the axis limits #
   #######################
