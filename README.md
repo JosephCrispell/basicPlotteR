@@ -16,6 +16,7 @@ library(plotteR)
 - `addTextLabels` for add non-overlapping labels onto existing R plot
 - `spreadPoints` for adding points onto boxplot(s) that are deterministically spread out to minimise overlap
 - `plotMultipleHistograms` for plotting multiple histograms on the same plot
+- `progress` for running a progress bar within a for loop
 
 ## `addTextLabels`
 ```
