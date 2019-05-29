@@ -1,4 +1,4 @@
-# plotteR
+# basicPlotteR
 ## Author: Joseph Crispell
 ## Repository created: 23-04-19
 ## Licence: GPL-3
