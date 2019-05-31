@@ -13,7 +13,7 @@
 #library("roxygen2")
 
 ## Creating package
-#packageDirectory <- "/home/josephcrispell/Desktop/Research/plotteR/"
+#packageDirectory <- "/home/josephcrispell/Desktop/Research/basicPlotteR/"
 #usethis::create_package(packageDirectory)
 
 ## Documenting changes
@@ -22,7 +22,7 @@
 
 ## Install
 #setwd("..")
-#install("plotteR")
+#install("basicPlotteR")
 
 #' Add non-overlapping text labels to plot
 #'
@@ -30,7 +30,7 @@
 #' @param xCoords A vector containing the X coordinates for labels
 #' @param yCoords A vector containing the Y coordinates for labels
 #' @param labels A vector containing the labels to be plotted
-#' @param cex A number to scale the size of the plotted labels. Defaults to 1
+#' @param cex.label A number to scale the size of the plotted labels. Defaults to 1
 #' @param col.label The colour of the plotted labels. Defaults to "red". Multiple colours can be provided. If more colours than labels provided colours will be recycled.
 #' @param col.line The colour of the line to plot from relocated labels to original location. Defaults to "black". Multiple colours can be provided. If more colours than labels provided colours will be recycled.
 #' @param col.background An optional colour for a background polygon plotted behind labels. Defaults to NULL - won't be plotted. Multiple colours can be provided. If more colours than labels provided colours will be recycled.
@@ -39,6 +39,7 @@
 #' @param border The colour of the border to be plotted around the polygon. Defaults to NA - won't be plotted. Multiple colours can be provided. If more colours than labels provided colours will be recycled.
 #' @param avoidPoints A logical variable indicating whether labels shouldn't be plotted on top of points. Defaults to TRUE
 #' @param keepLabelsInside A logical variable indicating whether the labels shouldn't be plotted outside of plotting region. Defaults to TRUE
+#' @param cex.pt A number used to scale the points plotted on the graph that labels are to be added to. Defaults to 1
 #' @keywords text label plot
 #' @export
 #' @examples
@@ -60,8 +61,8 @@
 #' # Plot them with non-overlapping labels
 #' plot(x=coords$X, y=coords$Y, pch=19, bty="n", xaxt="n", yaxt="n", col="red", xlab="X", ylab="Y")
 #' addTextLabels(coords$X, coords$Y, coords$Name, cex=1, col.background=rgb(0,0,0, 0.75), col.label="white")
-addTextLabels <- function(xCoords, yCoords, labels, cex=1, col.label="red", col.line="black", col.background=NULL,
-                          lty=1, lwd=1, border=NA, avoidPoints=TRUE, keepLabelsInside=TRUE){
+addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red", col.line="black", col.background=NULL,
+                          lty=1, lwd=1, border=NA, avoidPoints=TRUE, keepLabelsInside=TRUE, cex.pt=1){
 
   #######################################################
   # Check that the input data are in the correct format #
@@ -119,7 +120,7 @@ addTextLabels <- function(xCoords, yCoords, labels, cex=1, col.label="red", col.
   ###############################
 
   # Store the input coordinates and labels
-  pointInfo <- list("X"=xCoords, "Y"=yCoords, "Labels"=labels, "N"=length(xCoords))
+  pointInfo <- list("X"=xCoords, "Y"=yCoords, "Labels"=labels, "N"=length(xCoords), "cex"=cex.pt)
 
   # Set the amount to pad onto height and width
   heightPad <- 0.5
@@ -130,7 +131,7 @@ addTextLabels <- function(xCoords, yCoords, labels, cex=1, col.label="red", col.
   }
 
   # Calculate the label heights and widths
-  pointInfo <- calculateLabelHeightsAndWidths(pointInfo=pointInfo, cex=cex,
+  pointInfo <- calculateLabelHeightsAndWidths(pointInfo=pointInfo, cex=cex.label,
                                               heightPad=heightPad, widthPad=widthPad)
 
   ###########################################
@@ -186,12 +187,12 @@ addTextLabels <- function(xCoords, yCoords, labels, cex=1, col.label="red", col.
 
       # Add line back to previous location
       addLineBackToOriginalLocation(altX=altX, altY=altY, x=x, y=y, label=label,
-                                    cex=cex, col=lineColour, lty=lineType, lwd=lineWidth, heightPad=heightPad,
+                                    cex=cex.label, col=lineColour, lty=lineType, lwd=lineWidth, heightPad=heightPad,
                                     widthPad=widthPad)
 
       # Add label
       addLabel(x=altX, y=altY, label=label,
-               cex=cex, col=labelColour, bg=backgroundColour, border=borderColour, heightPad=heightPad, widthPad=widthPad)
+               cex=cex.label, col=labelColour, bg=backgroundColour, border=borderColour, heightPad=heightPad, widthPad=widthPad)
 
       # Append the plotted label information
       plottedLabelInfo <- addPlottedLabel(x=altX, y=altY, height=height, width=width,
@@ -207,7 +208,7 @@ addTextLabels <- function(xCoords, yCoords, labels, cex=1, col.label="red", col.
 
       # Add label
       addLabel(x=x, y=y, label=label,
-               cex=cex, col=labelColour, bg=backgroundColour, border=borderColour,
+               cex=cex.label, col=labelColour, bg=backgroundColour, border=borderColour,
                heightPad=heightPad, widthPad=widthPad)
 
       # Append the plotted label information
@@ -461,8 +462,8 @@ chooseNewLocation <- function(pointInfo, index, alternativeLocations, distances,
   # Get the information about the current point
   x <- pointInfo$X[index]
   y <- pointInfo$Y[index]
-  height <- pointInfo$Heights[index]
-  width <- pointInfo$Widths[index]
+  height <- pointInfo$Heights[index] * pointInfo$cex
+  width <- pointInfo$Widths[index] * pointInfo$cex
 
   # Get the indices of the alternative locations as an ordered
   orderedAlternateLocationIndices <- order(distances[index, ])

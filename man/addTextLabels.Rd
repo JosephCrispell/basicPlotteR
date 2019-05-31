@@ -4,9 +4,10 @@
 \alias{addTextLabels}
 \title{Add non-overlapping text labels to plot}
 \usage{
-addTextLabels(xCoords, yCoords, labels, cex = 1, col.label = "red",
-  col.line = "black", col.background = NULL, lty = 1, lwd = 1,
-  border = NA, avoidPoints = TRUE, keepLabelsInside = TRUE)
+addTextLabels(xCoords, yCoords, labels, cex.label = 1,
+  col.label = "red", col.line = "black", col.background = NULL,
+  lty = 1, lwd = 1, border = NA, avoidPoints = TRUE,
+  keepLabelsInside = TRUE, cex.pt = 1)
 }
 \arguments{
 \item{xCoords}{A vector containing the X coordinates for labels}
@@ -15,7 +16,7 @@ addTextLabels(xCoords, yCoords, labels, cex = 1, col.label = "red",
 
 \item{labels}{A vector containing the labels to be plotted}
 
-\item{cex}{A number to scale the size of the plotted labels. Defaults to 1}
+\item{cex.label}{A number to scale the size of the plotted labels. Defaults to 1}
 
 \item{col.label}{The colour of the plotted labels. Defaults to "red". Multiple colours can be provided. If more colours than labels provided colours will be recycled.}
 
@@ -32,6 +33,8 @@ addTextLabels(xCoords, yCoords, labels, cex = 1, col.label = "red",
 \item{avoidPoints}{A logical variable indicating whether labels shouldn't be plotted on top of points. Defaults to TRUE}
 
 \item{keepLabelsInside}{A logical variable indicating whether the labels shouldn't be plotted outside of plotting region. Defaults to TRUE}
+
+\item{cex.pt}{A number used to scale the points plotted on the graph that labels are to be added to. Defaults to 1}
 }
 \description{
 This function is similar to the \code{text()} function but it will attempt to re-locate labels that will overlap

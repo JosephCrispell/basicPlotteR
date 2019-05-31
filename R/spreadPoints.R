@@ -13,7 +13,7 @@
 #library("roxygen2")
 
 ## Creating package
-#packageDirectory <- "/home/josephcrispell/Desktop/Research/plotteR/"
+#packageDirectory <- "/home/josephcrispell/Desktop/Research/basicPlotteR/"
 #usethis::create_package(packageDirectory)
 
 ## Documenting changes
@@ -22,7 +22,7 @@
 
 ## Install
 #setwd("..")
-#install("plotteR")
+#install("basicPlotteR")
 
 #' Add spreaded, to avoid overlap, points to a boxplot
 #'
