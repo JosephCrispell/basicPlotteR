@@ -1,4 +1,4 @@
-Package: plotteR
+Package: basicPlotteR
 Title: A collection of functions to help with base R plotting
 Version: 0.0.0.9000
 Authors@R: person("Joseph", "Crispell", email = "crispelljoseph@gmail.com", role = "cre")
