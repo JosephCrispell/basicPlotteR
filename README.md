@@ -17,6 +17,7 @@ library(basicPlotteR)
 - `spreadPoints` for adding points onto boxplot(s) that are deterministically spread out to minimise overlap
 - `plotMultipleHistograms` for plotting multiple histograms on the same plot
 - `progress` for running a progress bar within a for loop
+- `setAlpha` for changing the alpha value (transparency) of colours specified as strings of characters
 
 ## `addTextLabels`
 ```
@@ -113,4 +114,20 @@ for(i in 1:n){
 ```
 
 ![](ExampleImages/progress.gif)
+
+## `setAlpha`
+```
+# Define the coordinates of three points
+x <- c(0.2, 0.5, 0.8)
+y <- c(0.5, 0.5, 0.5)
+
+# Define the colours for the points
+colours <- c("green", "blue", "red")
+
+# Plot the points - set the transparency
+plot(x, y, bty="n", xlab="X", ylab="Y", las=1, pch=19, cex=30, xlim=c(0,1), ylim=c(0,1), 
+     col=setAlpha(colours, alpha=0.5))
+```
+
+![](ExampleImages/setAlpha.png)
 
