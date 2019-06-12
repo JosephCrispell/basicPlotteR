@@ -28,7 +28,7 @@
 #'
 #' A function to change the alpha value (transparency) of colours that are defined as strings.
 #' @param colours A vector of colours defined by strings of characters
-#' @param alpha A numeric value (between 0 and 1), indicating the level of transparency to used
+#' @param alpha The transparency (0=transparent, 1=opaque)
 #' @keywords colour alpha transparency
 #' @export
 #' @examples
