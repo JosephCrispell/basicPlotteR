@@ -67,7 +67,7 @@ spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alph
   }
 
   # Set the colour alpha
-  colour <- setAlpha(col, alpha)
+  colour <- basicPlotteR::setAlpha(col, alpha)
 
   # Get the aixs limits
   axisLimits <- par("usr")
@@ -325,23 +325,4 @@ identifyValuesInBins <- function(bins){
   }
 
   return(indicesOfValuesInBins)
-}
-
-#' A function used to set the transparency of a colour
-#'
-#' Function used by \code{spreadPoints()}
-#' @param colour A colour
-#' @param alpha The transparency (0=transparent, 1=opaque) to be assigned to the input colour
-#' @keywords internal
-#' @return Returns a colour code representing the input colour with the transparency provided
-setAlpha <- function(colour, alpha){
-
-  # Convert the input colour into rgb values
-  rgbValues <- col2rgb(colour)
-
-  # Place rgb values within rgb function and insert alpha value
-  # Note that col2rgb returns rgbvlues from 0 to 255
-  rgbColour <- rgb(rgbValues["red", 1], rgbValues["green", 1], rgbValues["blue", 1],
-                   alpha=alpha*255, maxColorValue=255)
-  return(rgbColour)
 }
