@@ -84,6 +84,42 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
   axisLimits <- par("usr")
 
   ############################
+  # Check for NA coordinates #
+  ############################
+  
+  # Check if any NA coordinates present
+  indicesOfNAs <- which(is.na(xCoords) | is.na(yCoords))
+  if(length(indicesOfNAs) > 0){
+    
+    # Send warning
+    warning("NA values present in coordinates provided. These are ignored.")
+    
+    # Check for each of the parameters that can have multiple parameters
+    if(length(col.line) == length(xCoords)){
+      col.line = col.line[-indicesOfNAs]
+    }
+    if(length(col.background) == length(xCoords)){
+      col.background = col.background[-indicesOfNAs]
+    }
+    if(length(lty) == length(xCoords)){
+      lty = lty[-indicesOfNAs]
+    }
+    if(length(lwd) == length(xCoords)){
+      lwd = lwd[-indicesOfNAs]
+    }
+    if(length(border) == length(xCoords)){
+      border = border[-indicesOfNAs]
+    }
+    
+    # Remove the NA coordinates
+    xCoords <- xCoords[-indicesOfNAs]
+    yCoords <- yCoords[-indicesOfNAs]
+    
+    # Remove the respective labels
+    labels <- labels[-indicesOfNAs]
+  }
+  
+  ############################
   # Check if axes are logged #
   ############################
 
@@ -179,7 +215,8 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
     newLocationIndex <- chooseNewLocation(pointInfo, i, alternativeLocations, distances, plottedLabelInfo, axisLimits, keepLabelsInside)
 
     # Is the current point too close to others?
-    if(alternativeLocations$N != 0 && newLocationIndex != -1 && (avoidPoints == TRUE || tooClose(x, y, height, width, plottedLabelInfo))){
+    if(alternativeLocations$N != 0 && newLocationIndex != -1 && 
+       (avoidPoints == TRUE || tooClose(x, y, height, width, plottedLabelInfo) || outsidePlot(x, y, height, width, axisLimits))){
 
       # Get the coordinates for the chosen alternate location
       altX <- alternativeLocations$X[newLocationIndex]
@@ -312,7 +349,7 @@ addLineBackToOriginalLocation <- function(altX, altY, x, y, label, cex, col, lty
   closestY <- yMarkers[which.min(abs(yMarkers - y))]
 
   # Plot the line
-  points(x=c(closestX, x), y=c(closestY, y), type="l", col=col, lty=lty, lwd=lwd)
+  points(x=c(closestX, x), y=c(closestY, y), type="l", col=col, lty=lty, lwd=lwd, xpd=TRUE)
 }
 
 #' Calculate the heights and widths of the labels in the current plotting window
