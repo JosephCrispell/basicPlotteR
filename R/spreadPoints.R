@@ -60,7 +60,7 @@ spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alph
   if(length(indicesOfNAs) != 0){
     
     # Remove the NA values
-    values <- values[indicesOfNAs]
+    values <- values[-indicesOfNAs]
     
     # Print warning about the presence of NA values
     warning(paste0("NA values are present (n = ", length(indicesOfNAs), "). These are ignored for plotting."))
