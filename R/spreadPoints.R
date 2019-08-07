@@ -55,6 +55,17 @@
 spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alpha=0.5, plotBins=FALSE, plotOutliers=FALSE,
                          range=1.5, horiz=FALSE, fitToBoxWidth=TRUE, xpd=FALSE, widthCex=1){
 
+  # Check if NA values are present
+  indicesOfNAs <- which(is.na(values))
+  if(length(indicesOfNAs) != 0){
+    
+    # Remove the NA values
+    values <- values[indicesOfNAs]
+    
+    # Print warning about the presence of NA values
+    warning(paste0("NA values are present (n = ", length(indicesOfNAs), "). These are ignored for plotting."))
+  }
+  
   # Calculate the point size
   ptSize <- calculatePointShapeSize(cex=pointCex)
 
