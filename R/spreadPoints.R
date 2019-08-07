@@ -168,6 +168,11 @@ spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alph
 spreadPointsMultiple <- function(data, responseColumn, categoriesColumn, pointCex=1, col="black", pch=19, alpha=0.5, plotBins=FALSE,
                                  plotOutliers=FALSE, range=1.5, horiz=FALSE, fitToBoxWidth=TRUE, xpd=FALSE, widthCex=1){
 
+  # Check if categories column is a factor
+  if(is.factor(data[, categoriesColumn]) == FALSE){
+    data[, categoriesColumn] <- as.factor(data[, categoriesColumn])
+  }
+  
   # Get the unique categories in the categories column
   categories <- levels(data[, categoriesColumn])
 
