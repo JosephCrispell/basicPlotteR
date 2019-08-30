@@ -186,10 +186,15 @@ spreadPointsMultiple <- function(data, responseColumn, categoriesColumn, pointCe
   
   # Get the unique categories in the categories column
   categories <- levels(data[, categoriesColumn])
-
+  
   # Examine each of the categories within column provided
   for(position in seq_along(categories)){
 
+    # Check any values for the current category exist
+    if(categories[position] %in% data[, categoriesColumn] == FALSE){
+      next
+    }
+    
     # Define the values
     values <- data[data[, categoriesColumn] == categories[position], responseColumn]
 
