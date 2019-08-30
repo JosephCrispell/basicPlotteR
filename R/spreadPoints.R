@@ -192,6 +192,7 @@ spreadPointsMultiple <- function(data, responseColumn, categoriesColumn, pointCe
 
     # Check any values for the current category exist
     if(categories[position] %in% data[, categoriesColumn] == FALSE){
+      warning("No data available for factor level:", categories[position])
       next
     }
     
