@@ -144,7 +144,7 @@ spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alph
 
   # Plot the bins if requested - for testing
   if(plotBins){
-    plotBins(bins, col="green")
+    plotBinBoundaries(bins, col="green")
   }
 }
 
@@ -196,11 +196,14 @@ spreadPointsMultiple <- function(data, responseColumn, categoriesColumn, pointCe
       next
     }
     
+    # Define the colour
+    colour <- setOption(options=col, index=position)
+    
     # Define the values
     values <- data[data[, categoriesColumn] == categories[position], responseColumn]
 
     # Plot the points over the current boxplot
-    spreadPoints(values, position=position, pointCex, col, pch, alpha, plotBins, plotOutliers,
+    spreadPoints(values, position=position, pointCex, colour, pch, alpha, plotBins, plotOutliers,
                  range, horiz, fitToBoxWidth, xpd, widthCex)
   }
 }
@@ -288,7 +291,7 @@ testPchSizeCalculator <- function(ptSize, coords){
 #' @param bins A categorical vector detailing the start and end of each bin each value fell in Defined by \code{cut()} function in \code{spreadPoints()}
 #' @param col The colour of the horizontal lines, which define the bin start and ends, to be plotted
 #' @keywords internal
-plotBins <- function(bins, col){
+plotBinBoundaries <- function(bins, col){
 
   # Get the bin definitions
   binDefinitions <- levels(bins)
@@ -347,4 +350,34 @@ identifyValuesInBins <- function(bins){
   }
 
   return(indicesOfValuesInBins)
+}
+
+#' A function to assign value if multiple options are available, can recycle if index is > number of options available
+#'
+#' Function used by \code{addTextLabels()}
+#' @param colours A single option of vector of options
+#' @param index The current index of a label
+#' @keywords internal
+#' @return Returns the selected option based upon the index provided
+setOption <- function(options, index){
+  
+  # Check if option is null
+  option <- NULL
+  if(is.null(options) == FALSE){
+    # Calculate modulus - the remainder when the index is divided by the number of options provided
+    modulus <- index %% length(options)
+    
+    # Check if modulus non-zero - there is a remainder
+    if(modulus != 0){
+      
+      # Assign option using modulus as index
+      option <- options[modulus]
+      
+      # If no remainder, then index must be the length of the options vector
+    }else{
+      option <- options[length(options)]
+    }
+  }
+  
+  return(option)
 }

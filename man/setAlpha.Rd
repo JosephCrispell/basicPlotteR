@@ -9,7 +9,7 @@ setAlpha(colours, alpha)
 \arguments{
 \item{colours}{A vector of colours defined by strings of characters}
 
-\item{alpha}{A numeric value (between 0 and 1), indicating the level of transparency to used}
+\item{alpha}{The transparency (0=transparent, 1=opaque)}
 }
 \description{
 A function to change the alpha value (transparency) of colours that are defined as strings.
