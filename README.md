@@ -19,6 +19,7 @@ library(basicPlotteR)
 - `progress` for running a progress bar within a for loop
 - `setAlpha` for changing the alpha value (transparency) of colours specified as strings of characters
 - `watermark` for adding a transparent text label onto an existing plot
+- `plotFASTA` a quick way to visualise a nucleotide alignment
 
 ## `addTextLabels`
 ```
@@ -146,4 +147,19 @@ watermark("CONFIDENTIAL", col="red")
 ```
 
 ![](ExampleImages/watermark.png)
+
+## `plotFASTA`
+```
+# Create an example dataset
+nSequences <- 50
+nSites <- 100
+alignment <- matrix(sample(c("A", "C", "G", "T"), nSequences*nSites, replace=TRUE),
+                    nrow=nSequences, ncol=nSites)
+rownames(alignment) <- paste("Seq-", 1:nSequences)
+
+# Plot the FASTA
+plotFASTA(alignment, xTicksCex = 1.5, xLabCex=1.5, sequenceLabelCex=0.4)
+```
+
+![](ExampleImages/plotFasta.png)
 
