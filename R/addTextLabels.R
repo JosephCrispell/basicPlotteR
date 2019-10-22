@@ -110,7 +110,7 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
     if(length(border) == length(xCoords)){
       border = border[-indicesOfNAs]
     }
-    
+
     # Remove the NA coordinates
     xCoords <- xCoords[-indicesOfNAs]
     yCoords <- yCoords[-indicesOfNAs]
