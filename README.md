@@ -18,6 +18,7 @@ library(basicPlotteR)
 - `plotMultipleHistograms` for plotting multiple histograms on the same plot
 - `progress` for running a progress bar within a for loop
 - `setAlpha` for changing the alpha value (transparency) of colours specified as strings of characters
+- `watermark` for adding a transparent text label onto an existing plot
 
 ## `addTextLabels`
 ```
@@ -130,4 +131,19 @@ plot(x, y, bty="n", xlab="X", ylab="Y", las=1, pch=19, cex=30, xlim=c(0,1), ylim
 ```
 
 ![](ExampleImages/setAlpha.png)
+
+## `watermark`
+```
+# Generate some example data
+x <- runif(10000)
+y <- runif(10000)
+ 
+# Plot the points
+plot(x, y, las=1, bty="n", pch=19, col=rgb(0,0,0, 0.1))
+ 
+# Add a watermark
+watermark("CONFIDENTIAL", col="red")
+```
+
+![](ExampleImages/watermark.png)
 
