@@ -13,13 +13,14 @@ library(basicPlotteR)
 
 ## Package contents
 `plotteR` is a collection of tools designed for particular tasks. As I develop different tools that help with plotting in R, I'll add them into this general package. These are the current tools available in `plotteR`:
-- `addTextLabels` for add non-overlapping labels onto existing R plot
+- `addTextLabels` for adding non-overlapping labels onto existing R plot
 - `spreadPoints` for adding points onto boxplot(s) that are deterministically spread out to minimise overlap
 - `plotMultipleHistograms` for plotting multiple histograms on the same plot
 - `progress` for running a progress bar within a for loop
 - `setAlpha` for changing the alpha value (transparency) of colours specified as strings of characters
 - `watermark` for adding a transparent text label onto an existing plot
 - `plotFASTA` a quick way to visualise a nucleotide alignment
+- `addPoints` for adding non-overlapping points onto existing R plot
 
 ## `addTextLabels`
 ```
@@ -162,4 +163,20 @@ plotFASTA(alignment, xTicksCex = 1.5, xLabCex=1.5, sequenceLabelCex=0.4)
 ```
 
 ![](ExampleImages/plotFasta.png)
+
+## `addPoints`
+```
+# Create some random points
+n <- 50
+coords <- data.frame(X=runif(n), Y=runif(n), Name="Test Label")
+
+# Plot points and allow overlapping
+plot(x=coords$X, y=coords$Y, bty="n", xaxt="n", yaxt="n", cex=3, xlab="X", ylab="Y")
+
+# Plot points and avoid overlapping
+plot(x=NULL, y=NULL, xlim=range(coords$X), ylim=range(coords$Y), bty="n", xaxt="n", yaxt="n", xlab="X", ylab="Y")
+addPoints(coords$X, coords$Y, cex=3, col.line="red")
+```
+
+![](ExampleImages/addPoints.gif)
 
