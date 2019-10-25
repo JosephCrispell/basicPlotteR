@@ -263,9 +263,243 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
 
 }
 
+#' Add non-overlapping points to plot
+#'
+#' This function is similar to the \code{points()} function but it will attempt to re-locate points that will overlap
+#' @param xCoords A vector containing the X coordinates for labels
+#' @param yCoords A vector containing the Y coordinates for labels
+#' @param col.line The colour of the line to plot from relocated points to original location. Defaults to "black". Multiple colours can be provided. If more colours than labels provided colours will be recycled.
+#' @param lty A number detailing the type of line to plot from relocated labels to original location. 0: blank, 1: solid, 2: dashed, 3: dotted, 4: dotdash, 5: longdash, and 6: twodash. Defaults to 1. Multiple line types can be provided. If more options than labels provided types will be recycled.
+#' @param lwd A number to scale the size of line from relocated labels to original location. Defaults to 1. Multiple line widths can be provided. If more options than labels provided widths will be recycled.
+#' @param keepInside A logical variable indicating whether the points shouldn't be plotted outside of plotting region. Defaults to TRUE
+#' @param cex A number used to scale the size of the points plotted. Defaults to 1
+#' @param avoidFactor A number that increases (values > 1) or decreases (values < 1) the amount of space alloted to each point. Defaults to 1
+#' @param ... Arguments to be passed to the \code{points()} function
+#' @keywords points x y plot
+#' @export
+#' @examples
+#' # Create some random points
+#' n <- 50
+#' coords <- data.frame(X=runif(n), Y=runif(n), Name="Test Label")
+#'
+#' # Plot points and allow overlapping
+#' plot(x=coords$X, y=coords$Y, bty="n", xaxt="n", yaxt="n", cex=3, xlab="X", ylab="Y")
+#'
+#' # Plot points and avoid overlapping
+#' plot(x=NULL, y=NULL, xlim=range(coords$X), ylim=range(coords$Y), bty="n", xaxt="n", yaxt="n", xlab="X", ylab="Y")
+#' addPoints(coords$X, coords$Y, cex=3, col.line="red")
+addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInside=TRUE, cex=1, avoidFactor=1,
+                      ...){
+  
+  #######################################################
+  # Check that the input data are in the correct format #
+  #######################################################
+  
+  # Are each of coordinate vectors the same length?
+  if(length(xCoords) != length(yCoords)){
+    stop("addPoints() The vectors containing the X and Y coodinates must be the same length.")
+  }
+  
+  #######################
+  # Get the axis limits #
+  #######################
+  
+  # Get the axis limits
+  axisLimits <- par("usr")
+  
+  ############################
+  # Check for NA coordinates #
+  ############################
+  
+  # Check if any NA coordinates present
+  indicesOfNAs <- which(is.na(xCoords) | is.na(yCoords))
+  if(length(indicesOfNAs) > 0){
+    
+    # Send warning
+    warning("NA values present in coordinates provided. These are ignored.")
+    
+    # Check for each of the parameters that can have multiple parameters
+    if(length(col.line) == length(xCoords)){
+      col.line = col.line[-indicesOfNAs]
+    }
+    if(length(lty) == length(xCoords)){
+      lty = lty[-indicesOfNAs]
+    }
+    if(length(lwd) == length(xCoords)){
+      lwd = lwd[-indicesOfNAs]
+    }
+    if(length(cex) == length(xCoords)){
+      cex = cex[-indicesOfNAs]
+    }
+    
+    # Remove the NA coordinates
+    xCoords <- xCoords[-indicesOfNAs]
+    yCoords <- yCoords[-indicesOfNAs]
+  }
+  
+  ############################
+  # Check if axes are logged #
+  ############################
+  
+  # Check X axis
+  xAxisLogged <- FALSE
+  if(par("xlog")){
+    
+    # Note that X axis was logged
+    xAxisLogged <- TRUE
+    
+    # Log the X coordinates
+    xCoords <- log10(xCoords)
+    
+    # Reset the X axis logged flag - fools points and polygon commands below
+    par(xlog=FALSE)
+  }
+  
+  # Check Y axis
+  yAxisLogged <- FALSE
+  if(par("ylog")){
+    
+    # Note that Y axis was logged
+    yAxisLogged <- TRUE
+    
+    # Log the Y coordinates
+    yCoords <- log10(yCoords)
+    
+    # Reset the Y axis logged flag - fools points and polygon commands below
+    par(ylog=FALSE)
+  }
+  
+  ###############################
+  # Store the point information #
+  ###############################
+  
+  # Calculate the height and width of point on current plot
+  pointSize <- calculatePointSize(axisLimits, sizeFactor=avoidFactor)
+  
+  # Note the cex to be applied to each point
+  if(length(cex) != length(xCoords)){
+    cex <- rep(cex, ceiling(length(xCoords)/length(cex)))[1:length(xCoords)]
+  }
+  
+  # Store the input coordinates and labels
+  # !Note need to make addTextLabels have multiple cex values!
+  pointInfo <- list("X"=xCoords, "Y"=yCoords, "N"=length(xCoords), "Heights"=pointSize[1]*cex, 
+                    "Widths"=pointSize[2]*cex, "cex"=1)
+  
+  ###########################################
+  # Produce a list of alternative locations #
+  ###########################################
+  
+  # Generate the alternative locations
+  alternativeLocations <- generateAlternativeLocations(axisLimits)
+  
+  # Calculate the distance between the actual and alternative points - rescale X axis remove axis range bias
+  distances <- euclideanDistancesWithRescaledXAxis(pointInfo, alternativeLocations, axisLimits)
+  
+  ###############################################################
+  # Create a list to store the information about plotted points #
+  ###############################################################
+  
+  # Initialise the list to store the information about plotted labels
+  plottedPointInfo <- list("X"=c(), "Y"=c(), "Height"=c(), "Width"=c(), "N"=0)
+  
+  ##############################################################
+  # Add labels to plot assigning new locations where necessary #
+  ##############################################################
+  
+  # Plot the point label
+  for(i in seq_len(pointInfo$N)){
+    
+    # Set the line characteristics
+    lineColour <- setOption(options=col.line, index=i)
+    lineType <- setOption(options=lty, index=i)
+    lineWidth <- setOption(options=lwd, index=i)
+    
+    # Get the information for the current point
+    x <- pointInfo$X[i]
+    y <- pointInfo$Y[i]
+    height <- pointInfo$Heights[i]
+    width <- pointInfo$Widths[i]
+    
+    # Get a new location
+    newLocationIndex <- chooseNewLocation(pointInfo, i, alternativeLocations, distances,
+                                          plottedPointInfo, axisLimits, keepInside)
+    
+    # Is the current point too close to others?
+    if(alternativeLocations$N != 0 && newLocationIndex != -1 && 
+       (tooClose(x, y, height, width, plottedPointInfo) || 
+        outsidePlot(x, y, height, width, axisLimits))){
+      
+      # Get the coordinates for the chosen alternate location
+      altX <- alternativeLocations$X[newLocationIndex]
+      altY <- alternativeLocations$Y[newLocationIndex]
+      
+      # Add line back to previous location - from the outside of the circle
+      points(x=c(altX, x), y=c(altY, y), type="l", col=col.line, lty=lty, lwd=lwd, xpd=TRUE)
+      
+      # Add point
+      points(x=altX, y=altY, cex=cex, ...)
+      
+      # Append the plotted point information
+      plottedPointInfo <- addPlottedLabel(x=altX, y=altY, height=height, width=width,
+                                          plottedLabelInfo=plottedPointInfo)
+      
+      # Remove the alternative plotting location used
+      alternativeLocations$X <- alternativeLocations$X[-newLocationIndex]
+      alternativeLocations$Y <- alternativeLocations$Y[-newLocationIndex]
+      alternativeLocations$N <- alternativeLocations$N - 1
+      distances <- distances[, -newLocationIndex]
+      
+    }else{
+      
+      # Add point
+      points(x=x, y=y, cex=cex, ...)
+      
+      # Append the plotted point information
+      plottedPointInfo <- addPlottedLabel(x=x, y=y, height=height, width=width,
+                                          plottedLabelInfo=plottedPointInfo)
+    }
+  }
+  
+  #####################################################################################
+  # Return axes logged flags to original state - for if person makes any future plots #
+  #####################################################################################
+  
+  par(xlog=xAxisLogged)
+  par(ylog=yAxisLogged)
+  
+}
+
+#' Calculate the size of a point on the current plot
+#'
+#' Function used by \code{addPoints()}
+#' @param axisLimits The limits of the X and Y axis: (\code{c(xMin, xMax, yMin, yMax)})
+#' @param sizeFactor A number that increases (values > 1) or decreases (values < 1) the amount of space alloted to each point
+#' @keywords internal
+#' @return Returns a vector containing the width and height of a point
+calculatePointSize <- function(axisLimits, sizeFactor=1){
+  
+  # Get the plotting window size in inches
+  plotSizeInches <- par()$pin # width, height
+  widthInches <- plotSizeInches[1]
+  heightInches <- plotSizeInches[2]
+  
+  # Get the plotting window size in the plotting units
+  widthX <- axisLimits[2] - axisLimits[1]
+  heightY <- axisLimits[4] - axisLimits[3]
+  
+  # Calculate the size of a point in the current plot
+  # Cex=1 is 1/72 inches (https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/pdf.html)
+  # Dividing by 72 is far too small - decided to choose 15?!?!
+  pointWidth <- (widthX / widthInches) / (15/sizeFactor)
+  pointHeight <- (heightY / heightInches) / (15/sizeFactor)
+  
+  return(c(pointWidth, pointHeight))
+}
+
 #' A function to assign value if multiple options are available, can recycle if index is > number of options available
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param colours A single option of vector of options
 #' @param index The current index of a label
 #' @keywords internal
@@ -317,7 +551,7 @@ addPlottedLabel <- function(x, y, height, width, plottedLabelInfo){
 
 #' Plot line from new alternative location back to original
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param altX The X coordinate of new location
 #' @param altY The Y coordinate of new location
 #' @param x The X coordinate of original location
@@ -381,7 +615,7 @@ calculateLabelHeightsAndWidths <- function(pointInfo, cex, heightPad, widthPad){
 
 #' Generate a set of alternative locations where labels can be plotted if they overlap with another label
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param axisLimits The limits of the X and Y axis: (\code{c(xMin, xMax, yMin, yMax)})
 #' @keywords internal
 #' @return Returns a list containing the coordinates of the alternative locations
@@ -449,7 +683,7 @@ addLabel <- function(x, y, label, cex, col, bg, border, heightPad, widthPad){
 
 #' Remove coordinates of alternative locations that are too close to coordinates
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param altXs A vector of X coordinates for alternative locations
 #' @param altYs A vector of Y coordinates for alternative locations
 #' @param index The index of the point of interest in the coordinate vectors
@@ -481,7 +715,7 @@ removeLocationAndThoseCloseToItFromAlternatives <- function(altXs, altYs, index,
 
 #' A function to choose (from the alternative locations) a new location for a label to be plotted at
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param pointInfo A list storing the information for the input points
 #' @param index The index of the point of interest
 #' @param alternativeLocations The coordinates of the alternative locations
@@ -531,7 +765,7 @@ chooseNewLocation <- function(pointInfo, index, alternativeLocations, distances,
 
 #' Checks whether a point is too close to any of the plotted points
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param x X coordinate of point of interest
 #' @param y Y coodrinate of point of interest
 #' @param height The height of the label associated with the point of interest
@@ -555,7 +789,7 @@ overlapsWithPlottedPoints <- function(x, y, height, width, pointInfo){
 
 #' Checks whether adding a label at the current point will ending up being outside of the plotting window
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param x X coordinate of point of interest
 #' @param y Y coodrinate of point of interest
 #' @param height The height of the label associated with the point of interest
@@ -583,7 +817,7 @@ outsidePlot <- function(x, y, height, width, axisLimits){
 
 #' Checks whether a point is too close to any of the plotted labels
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param x X coordinate of point of interest
 #' @param y Y coodrinate of point of interest
 #' @param height The height of the label associated with the point of interest
@@ -617,7 +851,7 @@ tooClose <- function(x, y, height, width, plottedLabelInfo){
 
 #' Calculate the euclidean distance between two sets of points. Note: Rescales X axis to match scale of Y
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param pointInfo A list storing the information for the input points
 #' @param alternativeLocations A list storing the coordinates of the alternative locations
 #' @param axisLimits The limits of the X and Y axis: (\code{c(xMin, xMax, yMin, yMax)})
@@ -654,7 +888,7 @@ euclideanDistancesWithRescaledXAxis <- function(pointInfo, alternativeLocations,
 
 #' Calculate the euclidean distance between two points
 #'
-#' Function used by \code{addTextLabels()}
+#' Function used by \code{addTextLabels()} and \code{addPoints()}
 #' @param x1 The X coordinate of the first point
 #' @param y1 The Y coordinate of the first point
 #' @param x2 The X coordinate of the second point
