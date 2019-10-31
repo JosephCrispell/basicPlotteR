@@ -7,7 +7,7 @@
 plotFASTA(nucleotideAlignment, pdfFileName = NULL, pdfWidth = 14,
   pdfHeight = 7, labelSpace = 1, lineForSequenceNames = 0,
   sequenceLabelCex = 0.5, xLabCex = 1, xTicksCex = 1,
-  legendCex = 1, showNucleotide = FALSE)
+  legendCex = 1, showNucleotide = FALSE, removeUninformative = FALSE)
 }
 \arguments{
 \item{nucleotideAlignment}{A matrix or a list containing the DNA sequences, or an object of class "alignment", "phyDat", or "DNAbin"}

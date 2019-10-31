@@ -52,19 +52,19 @@
 #' plotFASTA(alignment, xTicksCex = 1.5, xLabCex=1.5, sequenceLabelCex=0.4)
 plotFASTA <- function(nucleotideAlignment, pdfFileName=NULL, pdfWidth=14, pdfHeight=7, labelSpace=1,
                       lineForSequenceNames=0, sequenceLabelCex=0.5, xLabCex=1, xTicksCex=1,
-                      legendCex=1, showNucleotide=FALSE){
+                      legendCex=1, showNucleotide=FALSE, removeUninformative=FALSE){
   
   # Convert the nucleotides to upper case
   nucleotideAlignment <- toupper(nucleotideAlignment)
   
-  # Check if the input aligment is in the right format
-  if(class(nucleotideAlignment) == "DNAbin"){
-    nucleotideAlignment <- as.character(nucleotideAlignment)
-  }else if(class(nucleotideAlignment) == "alignment" || class(nucleotideAlignment) == "phyDat"){
-    nucleotideAlignment <- as.character(as.DNAbin(nucleotideAlignment))
-  }else if(class(nucleotideAlignment) != "matrix"){
-    stop("Class of input nucleotide alignment not recognised:", class(nucleotideAlignment), 
-         "please provide alignment as a character matrix or in a \"alignment\", \"phyDat\", or \"DNAbin\" format.")
+  # Check if we don't want uninformative sites
+  if(removeUninformative){
+    
+    # Count the number of each nucleotide at each site
+    nNucleotidesAtEachSite <- sapply(1:ncol(nucleotideAlignment), countNucleotidesAtSite, nucleotideAlignment)
+    
+    # Remove the uninformative sites
+    nucleotideAlignment[, nNucleotidesAtEachSite > 1]
   }
   
   # Open a pdf if requested
@@ -125,7 +125,9 @@ plotFASTA <- function(nucleotideAlignment, pdfFileName=NULL, pdfWidth=14, pdfHei
        line=-1.5+lineForSequenceNames, cex.axis=sequenceLabelCex)
   
   # Add nucleotide legend
-  legend(x=nSites/2, y=nSequences + (0.15*nSequences), horiz=TRUE, xpd=TRUE, pch=22, col="grey", bty="n", xjust=0.5,
+  axisLimits <- par()$usr
+  yAxisLength <- axisLimits[4] - axisLimits[3]
+  legend(x=nSites/2, y=0.98*yAxisLength, horiz=TRUE, xpd=TRUE, pch=22, col="grey", bty="n", xjust=0.5,
          legend=names(nucleotideColours), pt.bg=unlist(nucleotideColours), pt.cex=1.5*legendCex,
          cex=legendCex)
   
@@ -137,3 +139,46 @@ plotFASTA <- function(nucleotideAlignment, pdfFileName=NULL, pdfWidth=14, pdfHei
     dev.off() 
   }
 }
+
+#' Count the number of different nucleotides at a position in a sequence alignment 
+#'
+#' Function counts the number of each nucleotide (A, C, G, and T) at position in a nucleotide alignment. Used by \code{plotFASTA} function
+#' @param position A numeric integer indicating the site in the nucleotide alignment to examine
+#' @param nucleotideAlignment A matrix of DNA sequences as characters
+#' @keywords internal
+#' @return Returns the number of different nucleotides at each position in the input alignment
+countNucleotidesAtSite <- function(position, nucleotideAlignment){
+  
+  # Get the unique nucleotides at the current position in the alignment
+  nucleotides <- unique(nucleotideAlignment[, position])
+    
+  # Remove the N, if present
+  nucleotides <- nucleotides[nucleotides != 'N']
+    
+  return(length(nucleotides))
+}
+
+#' Count the number of different nucleotides at a position in a sequence alignment 
+#'
+#' Function converts the nucleotide alignment to a format that will work with the \code{plotFASTA} function
+#' @param nucleotideAlignment A matrix or a list containing the DNA sequences, or an object of class "alignment", "phyDat", or "DNAbin"
+#' @keywords internal
+#' @return Returns a nucleotide alignment as matrix of nucleotides in upper case
+checkAlignmentClass <- function(nucleotideAlignment){
+  
+  # Check if the input aligment is in the right format
+  if(class(nucleotideAlignment) == "DNAbin"){
+    nucleotideAlignment <- as.character(nucleotideAlignment)
+  }else if(class(nucleotideAlignment) == "alignment" || class(nucleotideAlignment) == "phyDat"){
+    nucleotideAlignment <- as.character(as.DNAbin(nucleotideAlignment))
+  }else if(class(nucleotideAlignment) != "matrix"){
+    stop("Class of input nucleotide alignment not recognised:", class(nucleotideAlignment), 
+         "please provide alignment as a character matrix or in a \"alignment\", \"phyDat\", or \"DNAbin\" format.")
+  }
+  
+  # Convert the nucleotides to upper case
+  nucleotideAlignment <- toupper(nucleotideAlignment)
+  
+  return(nucleotideAlignment)
+}
+
