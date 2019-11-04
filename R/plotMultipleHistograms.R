@@ -43,6 +43,9 @@
 #' plotMultipleHistograms(distributions, nBins=20, colours=c(rgb(1,0,0, 0.5), rgb(0,0,1, 0.5), rgb(0,1,0, 0.5)), las=1)
 plotMultipleHistograms <- function(distributions, nBins=10, colours, ...){
 
+  # Check for NA values and remove
+  distributions <- removeNAValues(distributions)
+  
   # Calculate the limits of the X axis
   xLimits <- range(unlist(distributions))
   
@@ -60,6 +63,30 @@ plotMultipleHistograms <- function(distributions, nBins=10, colours, ...){
   for(i in 2:length(histograms)){
     plot(histograms[[i]], col=colours[i], add=TRUE)
   }
+}
+
+#' Remove \code{NA} values from each distribution
+#'
+#' Function used by \code{plotMultipleHistograms()}
+#' @param distributions A list containing multiple distributions - each represented as a numeric vector
+#' @keywords internal
+#' @return Returns a list containing multiple distributions without any NA values
+removeNAValues <- function(distributions){
+  
+  # Examine each of the distributions
+  for(index in seq_along(distributions)){
+    
+    # Get the values from the current distribution
+    values <- distributions[[index]]
+    
+    # Remove NA values
+    values <- values[is.na(values) == FALSE]
+    
+    # Overwrite the distribution
+    distributions[[index]] <- values
+  }
+  
+  return(distributions)
 }
 
 #' Define the breaks to be used in histograms
