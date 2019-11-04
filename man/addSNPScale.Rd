@@ -5,12 +5,16 @@
 \title{Add a SNP scale to phylogeny}
 \usage{
 addSNPScale(x = NULL, y = NULL, position = NULL, size = 1,
-  lineWidth = 1)
+  lineWidth = 1, cex = 1)
 }
 \arguments{
 \item{x}{An optional numeric X coordinate for the scale}
 
 \item{y}{An optional numeric Y coordinate for the scale}
+
+\item{lineWidth}{A numeric scaling factor to change the width of the scale line. Defaults to 1. Equivalent to \code{lwd}}
+
+\item{cex}{A numeric scaling factor to chancge the size of the scale label. Defautls to 1.}
 
 \item{postion}{An optional character vector detailing the location of the plot (top, middle, left, right, etc.)}
 }

@@ -29,9 +29,11 @@
 #' @param x An optional numeric X coordinate for the scale
 #' @param y An optional numeric Y coordinate for the scale
 #' @param postion An optional character vector detailing the location of the plot (top, middle, left, right, etc.)
+#' @param lineWidth A numeric scaling factor to change the width of the scale line. Defaults to 1. Equivalent to \code{lwd}
+#' @param cex A numeric scaling factor to chancge the size of the scale label. Defautls to 1.
 #' @keywords phylogeny scale nucleotide snp
 #' @export
-addSNPScale <- function(x=NULL, y=NULL, position=NULL, size=1, lineWidth=1){
+addSNPScale <- function(x=NULL, y=NULL, position=NULL, size=1, lineWidth=1, cex=1){
   
   # Get the axis limits of the current plot
   axisLimits <- par("usr")
@@ -48,7 +50,7 @@ addSNPScale <- function(x=NULL, y=NULL, position=NULL, size=1, lineWidth=1){
   
   # Add a scale
   lines(x=c(x-(0.5*size), x+(0.5*size)), y=c(y, y), lwd=lineWidth, xpd=TRUE)
-  text(x=x, y=y, labels=paste(size, ifelse(size > 1, "SNPs", "SNP")), pos=1, xpd=TRUE)
+  text(x=x, y=y, labels=paste(size, ifelse(size > 1, "SNPs", "SNP")), pos=1, xpd=TRUE, cex=cex)
 }
 
 #' Get the X and Y coordinates of a string coded location on a plot
