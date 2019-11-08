@@ -274,6 +274,7 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
 #' @param keepInside A logical variable indicating whether the points shouldn't be plotted outside of plotting region. Defaults to TRUE
 #' @param cex A number used to scale the size of the points plotted. Defaults to 1
 #' @param avoidFactor A number that increases (values > 1) or decreases (values < 1) the amount of space alloted to each point. Defaults to 1
+#' @param bg A character string that defines the background colour of our point. Defaults to NULL
 #' @param ... Arguments to be passed to the \code{points()} function
 #' @keywords points x y plot
 #' @export
@@ -288,8 +289,22 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
 #' # Plot points and avoid overlapping
 #' plot(x=NULL, y=NULL, xlim=range(coords$X), ylim=range(coords$Y), bty="n", xaxt="n", yaxt="n", xlab="X", ylab="Y")
 #' addPoints(coords$X, coords$Y, cex=3, col.line="red")
-addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInside=TRUE, cex=1, avoidFactor=1,
+addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInside=TRUE, cex=1, avoidFactor=1, bg=NULL,
                       ...){
+  
+  ######################################
+  # Create cex/bg value for each point #
+  ######################################
+  
+  # Note the cex is to be applied to each point
+  if(length(cex) != length(xCoords)){
+    cex <- rep(cex, ceiling(length(xCoords)/length(cex)))[1:length(xCoords)]
+  }
+  
+  # Note the bg is to be applied to each point
+  if(length(bg) != length(xCoords)){
+    bg <- rep(bg, ceiling(length(xCoords)/length(bg)))[1:length(xCoords)]
+  }
   
   #######################################################
   # Check that the input data are in the correct format #
@@ -320,16 +335,19 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
     
     # Check for each of the parameters that can have multiple parameters
     if(length(col.line) == length(xCoords)){
-      col.line = col.line[-indicesOfNAs]
+      col.line <- col.line[-indicesOfNAs]
     }
     if(length(lty) == length(xCoords)){
-      lty = lty[-indicesOfNAs]
+      lty <- lty[-indicesOfNAs]
     }
     if(length(lwd) == length(xCoords)){
-      lwd = lwd[-indicesOfNAs]
+      lwd <- lwd[-indicesOfNAs]
     }
     if(length(cex) == length(xCoords)){
-      cex = cex[-indicesOfNAs]
+      cex <- cex[-indicesOfNAs]
+    }
+    if(length(bg) == length(xCoords)){
+      bg <- bg[-indicesOfNAs]
     }
     
     # Remove the NA coordinates
@@ -375,11 +393,6 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
   
   # Calculate the height and width of point on current plot
   pointSize <- calculatePointSize(axisLimits, sizeFactor=avoidFactor)
-  
-  # Note the cex to be applied to each point
-  if(length(cex) != length(xCoords)){
-    cex <- rep(cex, ceiling(length(xCoords)/length(cex)))[1:length(xCoords)]
-  }
   
   # Store the input coordinates and labels
   # !Note need to make addTextLabels have multiple cex values!
@@ -438,7 +451,7 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
       points(x=c(altX, x), y=c(altY, y), type="l", col=col.line, lty=lty, lwd=lwd, xpd=TRUE)
       
       # Add point
-      points(x=altX, y=altY, cex=cex, ...)
+      points(x=altX, y=altY, cex=cex[i], bg=bg[i], ...)
       
       # Append the plotted point information
       plottedPointInfo <- addPlottedLabel(x=altX, y=altY, height=height, width=width,
@@ -453,7 +466,7 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
     }else{
       
       # Add point
-      points(x=x, y=y, cex=cex, ...)
+      points(x=x, y=y, cex=cex[i], bg=bg[i], ...)
       
       # Append the plotted point information
       plottedPointInfo <- addPlottedLabel(x=x, y=y, height=height, width=width,

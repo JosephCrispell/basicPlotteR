@@ -5,7 +5,7 @@
 \title{Add non-overlapping points to plot}
 \usage{
 addPoints(xCoords, yCoords, col.line = "black", lty = 1, lwd = 1,
-  keepInside = TRUE, cex = 1, avoidFactor = 1, ...)
+  keepInside = TRUE, cex = 1, avoidFactor = 1, bg = NULL, ...)
 }
 \arguments{
 \item{xCoords}{A vector containing the X coordinates for labels}
@@ -23,6 +23,8 @@ addPoints(xCoords, yCoords, col.line = "black", lty = 1, lwd = 1,
 \item{cex}{A number used to scale the size of the points plotted. Defaults to 1}
 
 \item{avoidFactor}{A number that increases (values > 1) or decreases (values < 1) the amount of space alloted to each point. Defaults to 1}
+
+\item{bg}{A character string that defines the background colour of our point. Defaults to NULL}
 
 \item{...}{Arguments to be passed to the \code{points()} function}
 }
