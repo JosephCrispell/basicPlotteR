@@ -83,12 +83,17 @@ spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alph
   # Get the aixs limits
   axisLimits <- par("usr")
 
-  # Assign each of the values into a bin - the number of bins is defined by the yPad
-  bins <- cut(values, breaks = (axisLimits[4] - axisLimits[3])/ptSize[2])
-  if(horiz){
-    bins <- cut(values, breaks = (axisLimits[2] - axisLimits[1])/ptSize[2])
+  # Check if multiple values available to define bins
+  bins <- as.factor(rep("SameBin", length(values)))
+  if(length(unique(values)) > 1){
+    
+    # Assign each of the values into a bin - the number of bins is defined by the yPad
+    bins <- cut(values, breaks = (axisLimits[4] - axisLimits[3])/ptSize[2])
+    if(horiz){
+      bins <- cut(values, breaks = (axisLimits[2] - axisLimits[1])/ptSize[2])
+    }
   }
-
+  
   # Identify the indices of the values that are present in each bin
   indicesOfValuesInBins <- identifyValuesInBins(bins)
 
