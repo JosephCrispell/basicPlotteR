@@ -61,7 +61,7 @@ setAlpha <- function(colours, alpha){
     # Place rgb values within rgb function and insert alpha value
     # Note that col2rgb returns rgbvlues from 0 to 255
     output[index] <- rgb(rgbValues["red", 1], rgbValues["green", 1], rgbValues["blue", 1],
-                         alpha=alpha*255, maxColorValue=255)
+                         alpha=alpha[index]*255, maxColorValue=255)
   }
 
   return(output)
