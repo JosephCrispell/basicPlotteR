@@ -42,11 +42,16 @@
 #' # Plot the points - set the transparency
 #' plot(x, y, bty="n", xlab="X", ylab="Y", las=1, pch=19, cex=30, xlim=c(0,1), ylim=c(0,1),
 #'      col=setAlpha(colours, alpha=0.5))
-setAlpha <- function(colours, alpha){
+setAlpha <- function(colours, alphas){
   
   # Check alpha value is from 0 to 1
-  if(alpha < 0 || alpha > 1){
+  if(length(which(alphas < 0)) > 0 || ength(which(alphas < 0)) > 0){
     stop("The alpha value must be from 0 to 1.")
+  }
+  
+  # Check enough alpha values were provided
+  if(length(alphas) < length(colours)){
+    alphas <- rep(alphas, ceiling(length(colours)/length(alphas)))
   }
   
   # Create a vector to store the output colours
@@ -61,7 +66,7 @@ setAlpha <- function(colours, alpha){
     # Place rgb values within rgb function and insert alpha value
     # Note that col2rgb returns rgbvlues from 0 to 255
     output[index] <- rgb(rgbValues["red", 1], rgbValues["green", 1], rgbValues["blue", 1],
-                         alpha=alpha[index]*255, maxColorValue=255)
+                         alpha=alphas[index]*255, maxColorValue=255)
   }
 
   return(output)
