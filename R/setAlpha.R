@@ -45,7 +45,7 @@
 setAlpha <- function(colours, alphas){
   
   # Check alpha value is from 0 to 1
-  if(length(which(alphas < 0)) > 0 || ength(which(alphas < 0)) > 0){
+  if(length(which(alphas < 0)) > 0 || length(which(alphas < 0)) > 0){
     stop("The alpha value must be from 0 to 1.")
   }
   
