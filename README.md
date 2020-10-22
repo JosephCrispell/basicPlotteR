@@ -12,16 +12,16 @@ library(basicPlotteR)
 ```
 
 ## Package contents
-`plotteR` is a collection of tools designed for particular tasks. As I develop different tools that help with plotting in R, I'll add them into this general package. These are the current tools available in `plotteR`:
-- `addTextLabels` for adding non-overlapping labels onto existing R plot
-- `spreadPoints` for adding points onto boxplot(s) that are deterministically spread out to minimise overlap
-- `plotMultipleHistograms` for plotting multiple histograms on the same plot
-- `progress` for running a progress bar within a for loop
-- `setAlpha` for changing the alpha value (transparency) of colours specified as strings of characters
-- `watermark` for adding a transparent text label onto an existing plot
-- `plotFASTA` a quick way to visualise a nucleotide alignment
-- `addPoints` for adding non-overlapping points onto existing R plot
-- `radarChart` for create a skills radar chart to map skills status and progress
+`basicPlotteR` is a collection of tools designed for particular tasks. As I develop different tools that help with plotting in R, I'll add them into this general package. These are the current tools available in `plotteR`:
+- [`addTextLabels`](#addtextlabels) for adding non-overlapping labels onto existing R plot
+- [`spreadPoints`](#spreadpoints) for adding points onto boxplot(s) that are deterministically spread out to minimise overlap
+- [`plotMultipleHistograms`](#plotmultiplehistograms) for plotting multiple histograms on the same plot
+- [`progress`](#progress) for running a progress bar within a for loop
+- [`setAlpha`](#setalpha) for changing the alpha value (transparency) of colours specified as strings of characters
+- [`watermark`](#watermark) for adding a transparent text label onto an existing plot
+- [`plotFASTA`](#plotfasta) a quick way to visualise a nucleotide alignment
+- [`addPoints`](#addpoints) for adding non-overlapping points onto existing R plot
+- [`radarChart`](#radarchart) for create a skills radar chart to map skills status and progress
 
 ## `addTextLabels`
 ```
