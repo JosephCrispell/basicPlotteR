@@ -21,6 +21,7 @@ library(basicPlotteR)
 - `watermark` for adding a transparent text label onto an existing plot
 - `plotFASTA` a quick way to visualise a nucleotide alignment
 - `addPoints` for adding non-overlapping points onto existing R plot
+- `radarChart` for create a skills radar chart to map skills status and progress
 
 ## `addTextLabels`
 ```
@@ -180,3 +181,26 @@ addPoints(coords$X, coords$Y, cex=3, col.line="red")
 
 ![](ExampleImages/addPoints.gif)
 
+## `radarChart`
+```
+# Create a radar chart to map our current status for selected skills
+radarChart(scores=c(4,3.5,2,3,3,3), 
+           names=c("Programming", "Statistics", "Databases", "Projects",
+                   "Web", "Versioning"),
+           levels=c("Unaware","Aware","Working","Practitioner", "Expert"))
+
+# Add to the radar chart where we aim to get to
+radarChart(scores=c(4,3.75,3,4,3,4), 
+           names=c("Programming", "Statistics", "Databases", "Projects",
+                   "Web", "Versioning"),
+           levels=c("Unaware","Aware","Working","Practitioner", "Expert"),
+           polygon.col="blue", add=TRUE)
+
+# Add a legend
+legend("topright", 
+       legend=c("Current", "Aim"), 
+       text.col=c(rgb(1,0,0, 0.5), rgb(0,0,1, 0.5)), 
+       bty="n", text.font=2, cex=1.5, xpd=TRUE)
+```
+
+![](ExampleImages/radarChart.png)
