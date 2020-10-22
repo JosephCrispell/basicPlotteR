@@ -4,8 +4,15 @@
 \alias{chooseNewLocation}
 \title{A function to choose (from the alternative locations) a new location for a label to be plotted at}
 \usage{
-chooseNewLocation(pointInfo, index, alternativeLocations, distances,
-  plottedLabelInfo, axisLimits, keepLabelsInside)
+chooseNewLocation(
+  pointInfo,
+  index,
+  alternativeLocations,
+  distances,
+  plottedLabelInfo,
+  axisLimits,
+  keepLabelsInside
+)
 }
 \arguments{
 \item{pointInfo}{A list storing the information for the input points}

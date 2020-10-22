@@ -4,7 +4,7 @@
 \alias{setAlpha}
 \title{A progress bar function to run within a \code{for} loop}
 \usage{
-setAlpha(colours, alpha)
+setAlpha(colours, alphas)
 }
 \arguments{
 \item{colours}{A vector of colours defined by strings of characters}

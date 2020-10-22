@@ -4,8 +4,14 @@
 \alias{removeLocationAndThoseCloseToItFromAlternatives}
 \title{Remove coordinates of alternative locations that are too close to coordinates}
 \usage{
-removeLocationAndThoseCloseToItFromAlternatives(altXs, altYs, index,
-  textHeight, textWidth, distances)
+removeLocationAndThoseCloseToItFromAlternatives(
+  altXs,
+  altYs,
+  index,
+  textHeight,
+  textWidth,
+  distances
+)
 }
 \arguments{
 \item{altXs}{A vector of X coordinates for alternative locations}

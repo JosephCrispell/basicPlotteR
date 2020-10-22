@@ -4,10 +4,21 @@
 \alias{addTextLabels}
 \title{Add non-overlapping text labels to plot}
 \usage{
-addTextLabels(xCoords, yCoords, labels, cex.label = 1,
-  col.label = "red", col.line = "black", col.background = NULL,
-  lty = 1, lwd = 1, border = NA, avoidPoints = TRUE,
-  keepLabelsInside = TRUE, cex.pt = 1)
+addTextLabels(
+  xCoords,
+  yCoords,
+  labels,
+  cex.label = 1,
+  col.label = "red",
+  col.line = "black",
+  col.background = NULL,
+  lty = 1,
+  lwd = 1,
+  border = NA,
+  avoidPoints = TRUE,
+  keepLabelsInside = TRUE,
+  cex.pt = 1
+)
 }
 \arguments{
 \item{xCoords}{A vector containing the X coordinates for labels}

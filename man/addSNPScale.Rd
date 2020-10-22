@@ -4,8 +4,15 @@
 \alias{addSNPScale}
 \title{Add a SNP scale to phylogeny}
 \usage{
-addSNPScale(x = NULL, y = NULL, position = NULL, size = 1,
-  lineWidth = 1, cex = 1, offset = 0.5)
+addSNPScale(
+  x = NULL,
+  y = NULL,
+  position = NULL,
+  size = 1,
+  lineWidth = 1,
+  cex = 1,
+  offset = 0.5
+)
 }
 \arguments{
 \item{x}{An optional numeric X coordinate for the scale}

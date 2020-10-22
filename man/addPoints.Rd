@@ -4,8 +4,18 @@
 \alias{addPoints}
 \title{Add non-overlapping points to plot}
 \usage{
-addPoints(xCoords, yCoords, col.line = "black", lty = 1, lwd = 1,
-  keepInside = TRUE, cex = 1, avoidFactor = 1, bg = NULL, ...)
+addPoints(
+  xCoords,
+  yCoords,
+  col.line = "black",
+  lty = 1,
+  lwd = 1,
+  keepInside = TRUE,
+  cex = 1,
+  avoidFactor = 1,
+  bg = NULL,
+  ...
+)
 }
 \arguments{
 \item{xCoords}{A vector containing the X coordinates for labels}

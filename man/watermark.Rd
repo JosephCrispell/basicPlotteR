@@ -4,8 +4,17 @@
 \alias{watermark}
 \title{Add a watermark to an existing plot}
 \usage{
-watermark(text, location = NULL, x = NULL, y = NULL, col = "black",
-  alpha = 0.5, srt = 45, cex = 1, ...)
+watermark(
+  text,
+  location = NULL,
+  x = NULL,
+  y = NULL,
+  col = "black",
+  alpha = 0.5,
+  srt = 45,
+  cex = 1,
+  ...
+)
 }
 \arguments{
 \item{text}{a character vector specifying the text to be written}

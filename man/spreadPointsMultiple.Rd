@@ -4,10 +4,22 @@
 \alias{spreadPointsMultiple}
 \title{Add spreaded, to avoid overlap, points to a boxplot containing multiple boxes drawn using data from dataframe}
 \usage{
-spreadPointsMultiple(data, responseColumn, categoriesColumn,
-  pointCex = 1, col = "black", pch = 19, alpha = 0.5,
-  plotBins = FALSE, plotOutliers = FALSE, range = 1.5,
-  horiz = FALSE, fitToBoxWidth = TRUE, xpd = FALSE, widthCex = 1)
+spreadPointsMultiple(
+  data,
+  responseColumn,
+  categoriesColumn,
+  pointCex = 1,
+  col = "black",
+  pch = 19,
+  alpha = 0.5,
+  plotBins = FALSE,
+  plotOutliers = FALSE,
+  range = 1.5,
+  horiz = FALSE,
+  fitToBoxWidth = TRUE,
+  xpd = FALSE,
+  widthCex = 1
+)
 }
 \arguments{
 \item{data}{A dataframe object containing the data to be plotted}

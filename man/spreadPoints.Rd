@@ -4,9 +4,21 @@
 \alias{spreadPoints}
 \title{Add spreaded, to avoid overlap, points to a boxplot}
 \usage{
-spreadPoints(values, position, pointCex = 1, col = "black", pch = 19,
-  alpha = 0.5, plotBins = FALSE, plotOutliers = FALSE, range = 1.5,
-  horiz = FALSE, fitToBoxWidth = TRUE, xpd = FALSE, widthCex = 1)
+spreadPoints(
+  values,
+  position,
+  pointCex = 1,
+  col = "black",
+  pch = 19,
+  alpha = 0.5,
+  plotBins = FALSE,
+  plotOutliers = FALSE,
+  range = 1.5,
+  horiz = FALSE,
+  fitToBoxWidth = TRUE,
+  xpd = FALSE,
+  widthCex = 1
+)
 }
 \arguments{
 \item{values}{A vector of numerical values}

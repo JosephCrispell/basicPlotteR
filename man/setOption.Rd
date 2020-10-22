@@ -13,10 +13,6 @@ setOption(options, index)
 \item{index}{The current index of a label}
 
 \item{colours}{A single option of vector of options}
-
-\item{colours}{A single option of vector of options}
-
-\item{index}{The current index of a label}
 }
 \value{
 Returns the selected option based upon the index provided

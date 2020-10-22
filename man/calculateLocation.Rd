@@ -9,11 +9,9 @@ calculateLocation(location = NULL, axisLimits)
 calculateLocation(location = NULL, axisLimits)
 }
 \arguments{
-\item{location}{A character string indicating a location on a plot}
+\item{location}{a character vector specifying the location for the text to be plotted}
 
 \item{axisLimits}{a numeric vector storing the limits of the axes in the format \code{c(xMin, xMax, yMin, yMax)}.}
-
-\item{location}{a character vector specifying the location for the text to be plotted}
 }
 \value{
 Returns a numeric vector storing the coordinates determined by string location

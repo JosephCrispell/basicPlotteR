@@ -4,8 +4,19 @@
 \alias{addLineBackToOriginalLocation}
 \title{Plot line from new alternative location back to original}
 \usage{
-addLineBackToOriginalLocation(altX, altY, x, y, label, cex, col, lty, lwd,
-  heightPad, widthPad)
+addLineBackToOriginalLocation(
+  altX,
+  altY,
+  x,
+  y,
+  label,
+  cex,
+  col,
+  lty,
+  lwd,
+  heightPad,
+  widthPad
+)
 }
 \arguments{
 \item{altX}{The X coordinate of new location}
