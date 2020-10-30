@@ -41,6 +41,8 @@ plotFASTA(
 \item{legendCex}{Numeric multiplier to change size of legend (points and text). Default value is 1.}
 
 \item{showNucleotide}{Boolean flag to decide whether or not to plot nucleotide characters onto figure. Defaults to off.}
+
+\item{removeUninformative}{Boolean flag to decide whether to remove sites where all sequences have the same allele. Default is \code{FALSE}.}
 }
 \description{
 Function uses coloured polygons to illustrate which nucleotides are present in each sequence at each position

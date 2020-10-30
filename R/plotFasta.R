@@ -38,6 +38,7 @@
 #' @param xTicksCex Numeric multipler to change size of X axis tick labels. Default value is 1.
 #' @param legendCex Numeric multiplier to change size of legend (points and text). Default value is 1.
 #' @param showNucleotide Boolean flag to decide whether or not to plot nucleotide characters onto figure. Defaults to off.
+#' @param removeUninformative Boolean flag to decide whether to remove sites where all sequences have the same allele. Default is \code{FALSE}.
 #' @keywords nucleotide alignment DNAbin plot
 #' @export
 #' @examples
