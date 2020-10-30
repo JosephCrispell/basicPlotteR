@@ -32,6 +32,8 @@ watermark(
 \item{srt}{the number of degrees from horizontal to set the angle of the text}
 
 \item{cex}{numeric character expansion factor. By default, text will be stretched to fit plotting window.}
+
+\item{...}{additional arguments to be passed to the \code{text()} function}
 }
 \description{
 This function should be run following a plot. It will add a transparent text label to act as a watermark.

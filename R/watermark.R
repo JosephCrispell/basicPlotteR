@@ -35,6 +35,7 @@
 #' @param alpha the transparency (0=translucent and 1=opaque) of the text to be plotted. Defaults to 0.5.
 #' @param srt the number of degrees from horizontal to set the angle of the text
 #' @param cex numeric character expansion factor. By default, text will be stretched to fit plotting window.
+#' @param ... additional arguments to be passed to the \code{text()} function
 #' @keywords watermark text plot
 #' @export
 #' @examples
