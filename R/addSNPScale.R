@@ -28,7 +28,8 @@
 #' Function that adds a SNP scale onto a plotted phylogeny
 #' @param x An optional numeric X coordinate for the scale
 #' @param y An optional numeric Y coordinate for the scale
-#' @param postion An optional character vector detailing the location of the plot (top, middle, left, right, etc.)
+#' @param position An optional character vector detailing the location of the plot (top, middle, left, right, etc.)
+#' @param size The size (in SNPs) of the scale
 #' @param lineWidth A numeric scaling factor to change the width of the scale line. Defaults to 1. Equivalent to \code{lwd}
 #' @param cex A numeric scaling factor to chancge the size of the scale label. Defaults to 1.
 #' @param offset This value controls the distance (‘offset’) of the text label from the scale in fractions of a character width. Defaults to 0.5.
