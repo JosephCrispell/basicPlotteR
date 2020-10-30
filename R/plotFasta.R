@@ -70,12 +70,12 @@ plotFASTA <- function(nucleotideAlignment, pdfFileName=NULL, pdfWidth=14, pdfHei
   
   # Open a pdf if requested
   if(is.null(pdfFileName) == FALSE){
-    pdf(pdfFileName, width=pdfWidth, height=pdfHeight)
+    grDevices::pdf(pdfFileName, width=pdfWidth, height=pdfHeight)
   }
   
   # Get and set the plotting margins
-  currentMar <- par()$mar
-  par(mar=c(4.1, 5*labelSpace, 3.1, 0.5))
+  currentMar <- graphics::par()$mar
+  graphics::par(mar=c(4.1, 5*labelSpace, 3.1, 0.5))
   
   # Note the colour of each nucleotide
   nucleotideColours <- list('A'="green", 'C'="blue", 'G'="black", 'T'="red", 'N'="white")
@@ -89,7 +89,7 @@ plotFASTA <- function(nucleotideAlignment, pdfFileName=NULL, pdfWidth=14, pdfHei
        cex.lab=xLabCex, cex.axis=xTicksCex)
   
   # Calculate the size of nucleotide to fit within box in matrix
-  defaultNucleotideWidth <- strwidth("A")
+  defaultNucleotideWidth <- graphics::strwidth("A")
   
   # Examine each sequence
   for(sequenceIndex in seq_len(nSequences)){
@@ -108,36 +108,36 @@ plotFASTA <- function(nucleotideAlignment, pdfFileName=NULL, pdfWidth=14, pdfHei
       }
       
       # Draw a polygon for the current poisition coloured by nucleotide
-      polygon(x=c(siteIndex-0.5, siteIndex-0.5, siteIndex+0.5, siteIndex+0.5), 
-              y=c(sequenceIndex-0.5, sequenceIndex+0.5, sequenceIndex+0.5, sequenceIndex-0.5),
-              border=rgb(0,0,0,0), col=nucleotideColour)
+      graphics::polygon(x=c(siteIndex-0.5, siteIndex-0.5, siteIndex+0.5, siteIndex+0.5), 
+                        y=c(sequenceIndex-0.5, sequenceIndex+0.5, sequenceIndex+0.5, sequenceIndex-0.5),
+                        border=grDevices::rgb(0,0,0,0), col=nucleotideColour)
     }
     
     # Overlay the nucleotides for the current sequence
     if(showNucleotide){
-      text(x=seq_len(nSites), y=rep(sequenceIndex, nSites), 
-           labels=nucleotideAlignment[sequenceIndex, ],
-           col="white", cex=0.5)
+      graphics::text(x=seq_len(nSites), y=rep(sequenceIndex, nSites), 
+                     labels=nucleotideAlignment[sequenceIndex, ],
+                     col="white", cex=0.5)
     }
   }
   
   # Add the sequence names
-  axis(side=2, at=seq_len(nSequences), labels=rownames(nucleotideAlignment), tick=FALSE, las=1, 
-       line=-1.5+lineForSequenceNames, cex.axis=sequenceLabelCex)
+  graphics::axis(side=2, at=seq_len(nSequences), labels=rownames(nucleotideAlignment), tick=FALSE, las=1, 
+                 line=-1.5+lineForSequenceNames, cex.axis=sequenceLabelCex)
   
   # Add nucleotide legend
-  axisLimits <- par()$usr
+  axisLimits <- graphics::par()$usr
   yAxisLength <- axisLimits[4] - axisLimits[3]
-  legend(x=nSites/2, y=0.98*yAxisLength, horiz=TRUE, xpd=TRUE, pch=22, col="grey", bty="n", xjust=0.5,
-         legend=names(nucleotideColours), pt.bg=unlist(nucleotideColours), pt.cex=1.5*legendCex,
-         cex=legendCex)
+  graphics::legend(x=nSites/2, y=0.98*yAxisLength, horiz=TRUE, xpd=TRUE, pch=22, col="grey", bty="n", xjust=0.5,
+                   legend=names(nucleotideColours), pt.bg=unlist(nucleotideColours), pt.cex=1.5*legendCex,
+                   cex=legendCex)
   
   # Reset the plotting margins
-  par(mar=currentMar)
+  graphics::par(mar=currentMar)
   
   # Close the PDF if requested
   if(is.null(pdfFileName) == FALSE){
-    dev.off() 
+    grDevices::dev.off() 
   }
 }
 
@@ -167,11 +167,11 @@ countNucleotidesAtSite <- function(position, nucleotideAlignment){
 #' @return Returns a nucleotide alignment as matrix of nucleotides in upper case
 checkAlignmentClass <- function(nucleotideAlignment){
   
-  # Check if the input aligment is in the right format
+  # Check if the input alignment is in the right format
   if(class(nucleotideAlignment) == "DNAbin"){
     nucleotideAlignment <- as.character(nucleotideAlignment)
   }else if(class(nucleotideAlignment) == "alignment" || class(nucleotideAlignment) == "phyDat"){
-    nucleotideAlignment <- as.character(as.DNAbin(nucleotideAlignment))
+    nucleotideAlignment <- as.character(ape::as.DNAbin(nucleotideAlignment))
   }else if(class(nucleotideAlignment) != "matrix"){
     stop("Class of input nucleotide alignment not recognised:", class(nucleotideAlignment), 
          "please provide alignment as a character matrix or in a \"alignment\", \"phyDat\", or \"DNAbin\" format.")

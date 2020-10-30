@@ -17,7 +17,7 @@ radarChart(
   main = "",
   margins = c(3, 3, 3, 3),
   addPoints = FALSE,
-  radar.col = rgb(0, 0, 0, 0.5),
+  radar.col = grDevices::rgb(0, 0, 0, 0.5),
   radar.lty = 1,
   radar.lwd = 0.5,
   levels.font = 1,

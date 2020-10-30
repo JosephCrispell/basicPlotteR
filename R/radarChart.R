@@ -73,7 +73,7 @@ radarChart <- function(scores, names, levels,
                        polygon.col="red", polygon.alpha=0.1, polygon.pch=19,
                        axisLabelPad=1.2, circles=FALSE, add=FALSE, main="",
                        margins=c(3,3,3,3), addPoints=FALSE, 
-                       radar.col=rgb(0,0,0, 0.5), radar.lty=1, radar.lwd=0.5,
+                       radar.col=grDevices::rgb(0,0,0, 0.5), radar.lty=1, radar.lwd=0.5,
                        levels.font=1, levels.cex=1, labels.font=2, labels.cex=1,
                        levelsAxesAngle=0, levelsLabelsAngle=0){
   
@@ -96,8 +96,8 @@ radarChart <- function(scores, names, levels,
   axesInfo <- data.frame("X"=axesEnds[, 1], "Y"=axesEnds[, 2])
   
   # Get and set the plotting margins
-  currentMar <- par()$mar
-  par(mar=margins)
+  currentMar <- graphics::par()$mar
+  graphics::par(mar=margins)
   
   # Check not adding to existing plot
   if(add == FALSE){
@@ -107,39 +107,39 @@ radarChart <- function(scores, names, levels,
          bty="n", asp=1, main=main, yaxt="n", xaxt="n", xlab="", ylab="")
     
     # Add in category titles
-    text(x=axesInfo$X * axisLabelPad, y=axesInfo$Y * axisLabelPad,
-         labels=names, xpd=TRUE, font=labels.font, cex=labels.cex)
+    graphics::text(x=axesInfo$X * axisLabelPad, y=axesInfo$Y * axisLabelPad,
+                   labels=names, xpd=TRUE, font=labels.font, cex=labels.cex)
     
     # Add each category line
     for(index in seq_along(scores)){
-      lines(x=c(axesInfo[index, "X"] * 1/nLevels, axesInfo[index, "X"]),
-            y=c(axesInfo[index, "Y"] * 1/nLevels, axesInfo[index, "Y"]),
-            lwd=radar.lwd, lty=radar.lty, col=radar.col)
+      graphics::lines(x=c(axesInfo[index, "X"] * 1/nLevels, axesInfo[index, "X"]),
+                      y=c(axesInfo[index, "Y"] * 1/nLevels, axesInfo[index, "Y"]),
+                      lwd=radar.lwd, lty=radar.lty, col=radar.col)
     }
     
     # Add in levels
     for(level in 1:nLevels){
       points <- generateEquiDistantPointsOnCircle(ifelse(circles, 360, length(scores)), radius=level)
-      polygon(points, border=radar.col, col=rgb(0,0,0, 0), lwd=radar.lwd, lty=radar.lty)
+      graphics::polygon(points, border=radar.col, col=grDevices::rgb(0,0,0, 0), lwd=radar.lwd, lty=radar.lty)
     }
     
     # Add level labels
     axesCoords <- calculateAxesCoordinatesAtEachLevel(axesInfo, nLevels, circles, levelsAxesAngle)
-    text(axesCoords, labels=levels, font=levels.font, cex=levels.cex, srt=360-levelsLabelsAngle)
+    graphics::text(axesCoords, labels=levels, font=levels.font, cex=levels.cex, srt=360-levelsLabelsAngle)
   }
   
   # Add in a skills polygon
-  polygon(x=scores/nLevels * axesInfo$X,
-          y=scores/nLevels * axesInfo$Y,
-          border=polygon.col, col=basicPlotteR::setAlpha(polygon.col, polygon.alpha))
+  graphics::polygon(x=scores/nLevels * axesInfo$X,
+                    y=scores/nLevels * axesInfo$Y,
+                    border=polygon.col, col=basicPlotteR::setAlpha(polygon.col, polygon.alpha))
   if(addPoints){
-    points(x=scores/nLevels * axesInfo$X,
-           y=scores/nLevels * axesInfo$Y,
-           pch=polygon.pch, col=polygon.col)
+    graphics::points(x=scores/nLevels * axesInfo$X,
+                     y=scores/nLevels * axesInfo$Y,
+                     pch=polygon.pch, col=polygon.col)
   }
   
   # Reset plotting margins
-  par(mar=currentMar)
+  graphics::par(mar=currentMar)
 }
 
 #' Define the coordinates for the radar level labels
@@ -213,7 +213,7 @@ generatePointsAlongPolygon <- function(coords, nPoints){
   for(start in seq_len(nrow(coords))){
     
     # Note the end point
-    end <- ifelse(start == 6, 1, end + 1)
+    end <- ifelse(start == nrow(coords), 1, start + 1)
     
     # Position points on edge
     pointsOnEdge <- data.frame(X=coords[start, "X"] + ((1/nPointsPerEdge)*(1:nPointsPerEdge)) * (coords[end, "X"] - coords[start, "X"]),

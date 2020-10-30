@@ -81,7 +81,7 @@ spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alph
   colour <- basicPlotteR::setAlpha(col, alpha)
 
   # Get the aixs limits
-  axisLimits <- par("usr")
+  axisLimits <- graphics::par("usr")
 
   # Check if multiple values available to define bins
   bins <- as.factor(rep("SameBin", length(values)))
@@ -130,9 +130,9 @@ spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alph
 
       # Plot the points - check if horizontal plotting
       if(horiz){
-        points(x=values[indicesOfValuesInBins[[key]]], y=xPositions, col=colour, xpd=xpd, cex=pointCex, pch=pch)
+        graphics::points(x=values[indicesOfValuesInBins[[key]]], y=xPositions, col=colour, xpd=xpd, cex=pointCex, pch=pch)
       }else{
-        points(x=xPositions, y=values[indicesOfValuesInBins[[key]]], col=colour, xpd=xpd, cex=pointCex, pch=pch)
+        graphics::points(x=xPositions, y=values[indicesOfValuesInBins[[key]]], col=colour, xpd=xpd, cex=pointCex, pch=pch)
       }
 
       # Check if single point present
@@ -140,9 +140,9 @@ spreadPoints <- function(values, position, pointCex=1, col="black", pch=19, alph
 
       # Plot the point - check if horizontal plotting
       if(horiz){
-        points(x=values[indicesOfValuesInBins[[key]][1]], y=position, col=colour, xpd=xpd, cex=pointCex, pch=pch)
+        graphics::points(x=values[indicesOfValuesInBins[[key]][1]], y=position, col=colour, xpd=xpd, cex=pointCex, pch=pch)
       }else{
-        points(x=position, y=values[indicesOfValuesInBins[[key]][1]], col=colour, xpd=xpd, cex=pointCex, pch=pch)
+        graphics::points(x=position, y=values[indicesOfValuesInBins[[key]][1]], col=colour, xpd=xpd, cex=pointCex, pch=pch)
       }
     }
   }
@@ -223,7 +223,7 @@ spreadPointsMultiple <- function(data, responseColumn, categoriesColumn, pointCe
 identifyWhiskersAndOutliers <- function(values, range){
 
   # Calculate the quartiles
-  quartiles <- quantile(values)
+  quartiles <- stats::quantile(values)
 
   # Initialise a vector to store the whikser positions and outliers
   whiskerInfo <- list("Upper"=c(max(values)), "Lower"=c(min(values)))
@@ -277,17 +277,17 @@ identifyWhiskersAndOutliers <- function(values, range){
 testPchSizeCalculator <- function(ptSize, coords){
 
   # Plot a point
-  points(x=coords[1], y=coords[2], pch=19, col="black")
+  graphics::points(x=coords[1], y=coords[2], pch=19, col="black")
 
   # Plot horizontal line to show calculated width
-  points(x=c(coords[1] - (0.5*ptSize[1]),
-             coords[1] + (0.5*ptSize[1])),
-         y=c(coords[2], coords[2]), type="l", col="green")
+  graphics::points(x=c(coords[1] - (0.5*ptSize[1]),
+                   coords[1] + (0.5*ptSize[1])),
+                   y=c(coords[2], coords[2]), type="l", col="green")
 
   # Plot vertical line to show calculated height
-  points(x=c(coords[1], coords[1]), type="l", col="green",
-         y=c(coords[2] - (0.5*ptSize[2]),
-             coords[2] + (0.5*ptSize[2])))
+  graphics::points(x=c(coords[1], coords[1]), type="l", col="green",
+                   y=c(coords[2] - (0.5*ptSize[2]),
+                   coords[2] + (0.5*ptSize[2])))
 }
 
 #' A function used in development to see the size of the bins used to spread points that fall within them
@@ -311,7 +311,7 @@ plotBinBoundaries <- function(bins, col){
     bounds <- as.numeric(strsplit(definition, split=",")[[1]])
 
     # Plot the bounds as horizontal lines
-    abline(h=bounds, col=col)
+    graphics::abline(h=bounds, col=col)
   }
 }
 
@@ -324,7 +324,7 @@ plotBinBoundaries <- function(bins, col){
 calculatePointShapeSize <- function(cex){
 
   # Get the default height of symbol in
-  symbolSize <- 0.5 * par("cxy")
+  symbolSize <- 0.5 * graphics::par("cxy")
 
   return(symbolSize * cex)
 }

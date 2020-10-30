@@ -38,7 +38,7 @@
 addSNPScale <- function(x=NULL, y=NULL, position=NULL, size=1, lineWidth=1, cex=1, offset=0.5){
   
   # Get the axis limits of the current plot
-  axisLimits <- par("usr")
+  axisLimits <- graphics::par("usr")
   
   # Get the label location
   coords <- c(x, y)
@@ -51,8 +51,8 @@ addSNPScale <- function(x=NULL, y=NULL, position=NULL, size=1, lineWidth=1, cex=
   }
   
   # Add a scale
-  lines(x=c(x-(0.5*size), x+(0.5*size)), y=c(y, y), lwd=lineWidth, xpd=TRUE)
-  text(x=x, y=y, labels=paste(size, ifelse(size > 1, "SNPs", "SNP")), pos=1, xpd=TRUE, cex=cex, offset=offset)
+  graphics::lines(x=c(x-(0.5*size), x+(0.5*size)), y=c(y, y), lwd=lineWidth, xpd=TRUE)
+  graphics::text(x=x, y=y, labels=paste(size, ifelse(size > 1, "SNPs", "SNP")), pos=1, xpd=TRUE, cex=cex, offset=offset)
 }
 
 #' Get the X and Y coordinates of a string coded location on a plot

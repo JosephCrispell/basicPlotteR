@@ -61,12 +61,12 @@ setAlpha <- function(colours, alphas){
   for(index in seq_along(colours)){
     
     # Convert the current colour into rgb values
-    rgbValues <- col2rgb(colours[index])
+    rgbValues <- grDevices::col2rgb(colours[index])
     
     # Place rgb values within rgb function and insert alpha value
     # Note that col2rgb returns rgbvlues from 0 to 255
-    output[index] <- rgb(rgbValues["red", 1], rgbValues["green", 1], rgbValues["blue", 1],
-                         alpha=alphas[index]*255, maxColorValue=255)
+    output[index] <- grDevices::rgb(rgbValues["red", 1], rgbValues["green", 1], rgbValues["blue", 1],
+                                    alpha=alphas[index]*255, maxColorValue=255)
   }
 
   return(output)

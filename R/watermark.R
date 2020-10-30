@@ -52,7 +52,7 @@ watermark <- function(text, location=NULL, x=NULL, y=NULL, col="black", alpha=0.
                       ...){
   
   # Get the axis limits of the current plot
-  axisLimits <- par("usr")
+  axisLimits <- graphics::par("usr")
   
   # Get the label location
   coords <- c(x, y)
@@ -85,7 +85,7 @@ calculateWatermarkCex <- function(text, axisLimits){
   nCharacters <- nchar(text)
   
   # Calculate the width of a character in the current plot
-  characterWidth <- strwidth(text) / nCharacters
+  characterWidth <- graphics::strwidth(text) / nCharacters
   
   # Calculate the text width
   textWidth <- characterWidth * nCharacters

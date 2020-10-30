@@ -56,11 +56,11 @@
 #'
 #' # Plot them with non-overlapping labels
 #' plot(x=coords$X, y=coords$Y, pch=19, bty="n", xaxt="n", yaxt="n", col="red", xlab="X", ylab="Y")
-#' addTextLabels(coords$X, coords$Y, coords$Name, cex=1, col.label="black")
+#' addTextLabels(coords$X, coords$Y, coords$Name, cex.label=1, col.label="black")
 #'
 #' # Plot them with non-overlapping labels
 #' plot(x=coords$X, y=coords$Y, pch=19, bty="n", xaxt="n", yaxt="n", col="red", xlab="X", ylab="Y")
-#' addTextLabels(coords$X, coords$Y, coords$Name, cex=1, col.background=rgb(0,0,0, 0.75), col.label="white")
+#' addTextLabels(coords$X, coords$Y, coords$Name, cex.label=1, col.background=rgb(0,0,0, 0.75), col.label="white")
 addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red", col.line="black", col.background=NULL,
                           lty=1, lwd=1, border=NA, avoidPoints=TRUE, keepLabelsInside=TRUE, cex.pt=1){
 
@@ -81,7 +81,7 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
   #######################
 
   # Get the axis limits
-  axisLimits <- par("usr")
+  axisLimits <- graphics::par("usr")
 
   ############################
   # Check for NA coordinates #
@@ -125,7 +125,7 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
 
   # Check X axis
   xAxisLogged <- FALSE
-  if(par("xlog")){
+  if(graphics::par("xlog")){
 
     # Note that X axis was logged
     xAxisLogged <- TRUE
@@ -134,12 +134,12 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
     xCoords <- log10(xCoords)
 
     # Reset the X axis logged flag - fools points and polygon commands below
-    par(xlog=FALSE)
+    graphics::par(xlog=FALSE)
   }
 
   # Check Y axis
   yAxisLogged <- FALSE
-  if(par("ylog")){
+  if(graphics::par("ylog")){
 
     # Note that Y axis was logged
     yAxisLogged <- TRUE
@@ -148,7 +148,7 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
     yCoords <- log10(yCoords)
 
     # Reset the Y axis logged flag - fools points and polygon commands below
-    par(ylog=FALSE)
+    graphics::par(ylog=FALSE)
   }
 
   ###############################
@@ -258,8 +258,8 @@ addTextLabels <- function(xCoords, yCoords, labels, cex.label=1, col.label="red"
   # Return axes logged flags to original state - for if person makes any future plots #
   #####################################################################################
 
-  par(xlog=xAxisLogged)
-  par(ylog=yAxisLogged)
+  graphics::par(xlog=xAxisLogged)
+  graphics::par(ylog=yAxisLogged)
 
 }
 
@@ -320,7 +320,7 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
   #######################
   
   # Get the axis limits
-  axisLimits <- par("usr")
+  axisLimits <- graphics::par("usr")
   
   ############################
   # Check for NA coordinates #
@@ -361,7 +361,7 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
   
   # Check X axis
   xAxisLogged <- FALSE
-  if(par("xlog")){
+  if(graphics::par("xlog")){
     
     # Note that X axis was logged
     xAxisLogged <- TRUE
@@ -370,12 +370,12 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
     xCoords <- log10(xCoords)
     
     # Reset the X axis logged flag - fools points and polygon commands below
-    par(xlog=FALSE)
+    graphics::par(xlog=FALSE)
   }
   
   # Check Y axis
   yAxisLogged <- FALSE
-  if(par("ylog")){
+  if(graphics::par("ylog")){
     
     # Note that Y axis was logged
     yAxisLogged <- TRUE
@@ -384,7 +384,7 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
     yCoords <- log10(yCoords)
     
     # Reset the Y axis logged flag - fools points and polygon commands below
-    par(ylog=FALSE)
+    graphics::par(ylog=FALSE)
   }
   
   ###############################
@@ -448,10 +448,10 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
       altY <- alternativeLocations$Y[newLocationIndex]
       
       # Add line back to previous location - from the outside of the circle
-      points(x=c(altX, x), y=c(altY, y), type="l", col=col.line, lty=lty, lwd=lwd, xpd=TRUE)
+      graphics::points(x=c(altX, x), y=c(altY, y), type="l", col=col.line, lty=lty, lwd=lwd, xpd=TRUE)
       
       # Add point
-      points(x=altX, y=altY, cex=cex[i], bg=bg[i], ...)
+      graphics::points(x=altX, y=altY, cex=cex[i], bg=bg[i], ...)
       
       # Append the plotted point information
       plottedPointInfo <- addPlottedLabel(x=altX, y=altY, height=height, width=width,
@@ -466,7 +466,7 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
     }else{
       
       # Add point
-      points(x=x, y=y, cex=cex[i], bg=bg[i], ...)
+      graphics::points(x=x, y=y, cex=cex[i], bg=bg[i], ...)
       
       # Append the plotted point information
       plottedPointInfo <- addPlottedLabel(x=x, y=y, height=height, width=width,
@@ -478,8 +478,8 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
   # Return axes logged flags to original state - for if person makes any future plots #
   #####################################################################################
   
-  par(xlog=xAxisLogged)
-  par(ylog=yAxisLogged)
+  graphics::par(xlog=xAxisLogged)
+  graphics::par(ylog=yAxisLogged)
   
 }
 
@@ -493,7 +493,7 @@ addPoints <- function(xCoords, yCoords, col.line="black", lty=1, lwd=1, keepInsi
 calculatePointSize <- function(axisLimits, sizeFactor=1){
   
   # Get the plotting window size in inches
-  plotSizeInches <- par()$pin # width, height
+  plotSizeInches <- graphics::par()$pin # width, height
   widthInches <- plotSizeInches[1]
   heightInches <- plotSizeInches[2]
   
@@ -580,8 +580,8 @@ addPlottedLabel <- function(x, y, height, width, plottedLabelInfo){
 addLineBackToOriginalLocation <- function(altX, altY, x, y, label, cex, col, lty, lwd, heightPad, widthPad){
 
   # Calculate the label width and height
-  labelHeight <- strheight(label, cex=cex)
-  labelWidth <- strwidth(label, cex=cex)
+  labelHeight <- graphics::strheight(label, cex=cex)
+  labelWidth <- graphics::strwidth(label, cex=cex)
 
   # Calculate amount outer left/right and above/below
   xHalf <- labelWidth * (0.5 + (0.5 * widthPad))
@@ -596,7 +596,7 @@ addLineBackToOriginalLocation <- function(altX, altY, x, y, label, cex, col, lty
   closestY <- yMarkers[which.min(abs(yMarkers - y))]
 
   # Plot the line
-  points(x=c(closestX, x), y=c(closestY, y), type="l", col=col, lty=lty, lwd=lwd, xpd=TRUE)
+  graphics::points(x=c(closestX, x), y=c(closestY, y), type="l", col=col, lty=lty, lwd=lwd, xpd=TRUE)
 }
 
 #' Calculate the heights and widths of the labels in the current plotting window
@@ -611,8 +611,8 @@ addLineBackToOriginalLocation <- function(altX, altY, x, y, label, cex, col, lty
 calculateLabelHeightsAndWidths <- function(pointInfo, cex, heightPad, widthPad){
 
   # Get the text label heights and lengths
-  textHeights <- strheight(pointInfo$Labels)
-  textWidths <- strwidth(pointInfo$Labels)
+  textHeights <- graphics::strheight(pointInfo$Labels)
+  textWidths <- graphics::strwidth(pointInfo$Labels)
 
   # Multiply by cex
   textHeights <- textHeights * cex
@@ -649,7 +649,7 @@ generateAlternativeLocations <- function(axisLimits){
       alternativeLocations$Y[length(alternativeLocations$Y) + 1] <- j
     }
   }
-  #points(alternativeLocations$X, alternativeLocations$Y, col=rgb(0,0,0, 0.5), pch=20, xpd=TRUE)
+  #graphics::points(alternativeLocations$X, alternativeLocations$Y, col=rgb(0,0,0, 0.5), pch=20, xpd=TRUE)
 
   # Note the number of alternative locations created
   alternativeLocations[["N"]] <- length(alternativeLocations$X)
@@ -676,22 +676,22 @@ addLabel <- function(x, y, label, cex, col, bg, border, heightPad, widthPad){
   if(is.null(bg) == FALSE){
 
     # Calculate the height and width of the label
-    labelHeight <- strheight(label, cex=cex)
-    labelWidth <- strwidth(label, cex=cex)
+    labelHeight <- graphics::strheight(label, cex=cex)
+    labelWidth <- graphics::strwidth(label, cex=cex)
 
     # Calculate amount outer left/right and above/below
     xHalf <- labelWidth * (0.5 + (0.5 * widthPad))
     yHalf <- labelHeight * (0.5 + (0.5 * heightPad))
 
     # Plot the background polygon
-    polygon(x=c(x - xHalf, x - xHalf, x + xHalf, x + xHalf),
-            y=c(y - yHalf, y + yHalf, y + yHalf, y - yHalf),
-            col=bg, border=border, xpd=TRUE)
+    graphics::polygon(x=c(x - xHalf, x - xHalf, x + xHalf, x + xHalf),
+                      y=c(y - yHalf, y + yHalf, y + yHalf, y - yHalf),
+                      col=bg, border=border, xpd=TRUE)
   }
 
 
   # Add label
-  text(x=x, y=y, labels=label, xpd=TRUE, cex=cex, col=col)
+  graphics::text(x=x, y=y, labels=label, xpd=TRUE, cex=cex, col=col)
 }
 
 #' Remove coordinates of alternative locations that are too close to coordinates
@@ -740,7 +740,7 @@ removeLocationAndThoseCloseToItFromAlternatives <- function(altXs, altYs, index,
 #' @return Returns the index of the chosen alternative location
 chooseNewLocation <- function(pointInfo, index, alternativeLocations, distances, plottedLabelInfo, axisLimits, keepLabelsInside){
 
-  # points(alternativeLocations$X, alternativeLocations$Y, pch=19, xpd=TRUE,
+  # graphics::points(alternativeLocations$X, alternativeLocations$Y, pch=19, xpd=TRUE,
   #        col=rgb(1,0,0, distances[index, ] / max(distances[index, ])))
 
   # Get the information about the current point
@@ -841,10 +841,10 @@ outsidePlot <- function(x, y, height, width, axisLimits){
 tooClose <- function(x, y, height, width, plottedLabelInfo){
 
   # Check if logged axes were used
-  if(par("xlog")){
+  if(graphics::par("xlog")){
     x <- log10(x)
   }
-  if(par("ylog")){
+  if(graphics::par("ylog")){
     y <- log10(y)
   }
 

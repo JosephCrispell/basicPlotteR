@@ -127,7 +127,7 @@ createHistogramObjects <- function(distributions, breaks){
   # Create a histogram for each distribution
   for(distribution in distributions){
 
-    output[[length(output) + 1]] <- hist(distribution, breaks=breaks, plot=FALSE)
+    output[[length(output) + 1]] <- graphics::hist(distribution, breaks=breaks, plot=FALSE)
   }
   
   return(output)
