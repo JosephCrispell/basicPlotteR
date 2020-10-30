@@ -1,3 +1,5 @@
+[![R build status](https://github.com/JosephCrispell/basicPlotteR/workflows/R-CMD-check/badge.svg)](https://github.com/JosephCrispell/basicPlotteR/actions?workflow=R-CMD-check)
+
 # basicPlotteR
 ## Author: Joseph Crispell
 ## Repository created: 23-04-19
