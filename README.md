@@ -1,4 +1,5 @@
 [![R build status](https://github.com/JosephCrispell/basicPlotteR/workflows/R-CMD-check/badge.svg)](https://github.com/JosephCrispell/basicPlotteR/actions?workflow=R-CMD-check)
+[![GitHub stars](https://img.shields.io/github/stars/JosephCrispell/basicPlotteR?style=social)](https://github.com/JosephCrispell/basicPlotteR)
 
 # basicPlotteR
 ## Author: Joseph Crispell
